@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.bg-backimage {
+  background-image: url("../public/background.png");
+  background-repeat: repeat;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

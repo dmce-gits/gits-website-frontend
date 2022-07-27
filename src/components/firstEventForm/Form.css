@@ -1,0 +1,65 @@
+/* Styling the Body element i.e. Color,
+		Font, Alignment */
+body {
+  text-align: center;
+  background-color: black;
+}
+
+/* Styling the Form (Color, Padding, Shadow) */
+form {
+  background-color: rgb(124, 176, 239);
+  max-width: 500px;
+
+  padding: 30px 20px;
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Styling form-control Class */
+.form-control {
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+/* Styling form-control Label */
+.form-control label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Styling form-control input,
+		select, textarea */
+.form-control input,
+.form-control select,
+.form-control textarea {
+  border: 1px solid #777;
+  border-radius: 2px;
+  font-family: inherit;
+  padding: 10px;
+  display: block;
+  width: 95%;
+}
+
+logo {
+  position: center;
+  align-content: center;
+  top: 0;
+  left: 0;
+
+  max-width: fit-content;
+  max-height: fit-content;
+  border: 1px solid #fffafa;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
