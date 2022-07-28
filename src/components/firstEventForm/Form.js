@@ -66,10 +66,10 @@ const Form = ({ setRegisterSubmitClicked }) => {
       return;
     }
 
-    fetch("http://127.0.0.1:5000/eventRegistration", {
+    fetch("https://gits-website.herokuapp.com/eventRegistration", {
       method: "POST",
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
@@ -94,8 +94,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
             <p className="font-medium text-justify ">
               The HTML and CSS Workshop takes you on a journey to learning how
-              to create beautiful websites using your own content, understanding
-              how they work, and how to manage them long-term.
+              to create beautiful websites using your own content,
+              understanding how they work, and how to manage them long-term.
             </p>
             <div className="flex flex-col mt-2 justify-center">
               <p>Event is conducted by :</p>
