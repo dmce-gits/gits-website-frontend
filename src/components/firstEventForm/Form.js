@@ -73,9 +73,10 @@ const Form = ({ setRegisterSubmitClicked }) => {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
+      .then((res) => res.text())
       .then((json) => {
-        console.log(json);
+        const jsonData = JSON.parse(json);
+        console.log(jsonData);
         setRegisterSubmitClicked(true);
       });
   };
