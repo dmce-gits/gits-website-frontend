@@ -21,7 +21,7 @@ function App() {
             )
           }
         />
-        <Route path="/main" element={<TableFormat />} />
+        <Route path="/responses" element={<TableFormat />} />
       </Routes>
     </div>
   );
