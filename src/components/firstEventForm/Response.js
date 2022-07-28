@@ -2,8 +2,6 @@ import React from "react";
 import "./Response.css";
 import { AiFillInstagram } from "react-icons/ai";
 import { AiOutlineTwitter } from "react-icons/ai";
-import { BsFacebook } from "react-icons/bs";
-import { FaYoutube } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 
 const Response = () => {
