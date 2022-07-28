@@ -9,7 +9,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [div, setDiv] = useState("A");
   const [rollNum, setRollNum] = useState("");
   const [grNum, setGrNum] = useState("");
-
+  let event = "HTML CSS JS";
   const [errors, setErrors] = useState({});
 
   const validateEmail = (email) => {
@@ -23,6 +23,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const data = {
+      event,
       name,
       email,
       phone,
@@ -65,7 +66,13 @@ const Form = ({ setRegisterSubmitClicked }) => {
       return;
     }
 
-    fetch("", { method: "POST", body: data })
+    fetch("http://127.0.0.1:5000/eventRegistration", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
       .then((res) => res.json())
       .then((json) => {
         console.log(json);
