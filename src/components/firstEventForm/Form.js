@@ -92,8 +92,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
             <p className="font-medium text-justify ">
               The HTML and CSS Workshop takes you on a journey to learning how
-              to create beautiful websites using your own content,
-              understanding how they work, and how to manage them long-term.
+              to create beautiful websites using your own content, understanding
+              how they work, and how to manage them long-term.
             </p>
             <div className="flex flex-col mt-2 justify-center">
               <p>Event is conducted by :</p>
@@ -114,6 +114,10 @@ const Form = ({ setRegisterSubmitClicked }) => {
               >
                 2. Mrunmayee Jakate
               </a>
+              <h1 className="font-bold">
+                Event Timing:{" "}
+                <span className="text-red-600">2:00PM to 5:00PM</span>
+              </h1>
             </div>
           </div>
         </div>

@@ -28,12 +28,8 @@ const Response = () => {
               Your response has been recorded!
             </h3>
             <h4 className="text-lg font-bold mt-4"> Prerequisite</h4>
-            <p>
-              1. Bring your laptop fully-charged and install VS Code in it.
-            </p>
-            <p>
-              2. Download this Setup file,from the given link and unzip it.
-            </p>
+            <p>1. Bring your laptop fully-charged and install VS Code in it.</p>
+            <p>2. Download this Setup file,from the given link and unzip it.</p>
           </div>
         </div>
         <div className="form-control">
@@ -43,6 +39,11 @@ const Response = () => {
             <a className="underline" href="https://github.com/jay-2000">
               GitHub Link
             </a>
+            <br></br>
+            <h1 className="font-bold">
+              Event Timing:{" "}
+              <span className="text-red-600">2:00PM to 5:00PM</span>
+            </h1>
           </div>
         </div>
 
