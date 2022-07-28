@@ -9,6 +9,7 @@ const addEvent = (data, success, failure) => {
     email: data.email,
     division: data.div,
     year: data.year,
+    branch: data.branch,
     stdid: data.grNum,
     roll_no: data.rollNum,
   };
