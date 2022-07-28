@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { addEvent } from "../../firebase/eventApi";
 import "./Form.css";
 
 const Form = ({ setRegisterSubmitClicked }) => {
@@ -9,7 +10,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [div, setDiv] = useState("A");
   const [rollNum, setRollNum] = useState("");
   const [grNum, setGrNum] = useState("");
-  let event = "HTML CSS JS";
+  let event = "HTML-CSS-JS";
   const [errors, setErrors] = useState({});
 
   const validateEmail = (email) => {
@@ -66,19 +67,15 @@ const Form = ({ setRegisterSubmitClicked }) => {
       return;
     }
 
-    fetch("https://gits-website.herokuapp.com/eventRegistration", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.text())
-      .then((json) => {
-        const jsonData = JSON.parse(json);
-        console.log(jsonData);
+    addEvent(
+      data,
+      () => {
         setRegisterSubmitClicked(true);
-      });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   };
 
   return (
