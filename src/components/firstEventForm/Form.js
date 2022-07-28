@@ -7,6 +7,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   let [email, setEmail] = useState("");
   let [phone, setPhone] = useState("");
   let [year, setYear] = useState("SE");
+  const [branch, setBranch] = useState("Information Technology");
   const [div, setDiv] = useState("A");
   const [rollNum, setRollNum] = useState("");
   const [grNum, setGrNum] = useState("");
@@ -29,6 +30,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
       email,
       phone,
       year,
+      branch,
       div,
       rollNum,
       grNum,
@@ -50,6 +52,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
     }
     if (year.trim() === "") {
       newErrors = { ...newErrors, year: true };
+    }
+    if (branch.trim() === "") {
+      newErrors = { ...newErrors, branch: true };
     }
     if (div.trim() === "") {
       newErrors = { ...newErrors, div: true };
@@ -169,6 +174,41 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <option value="SE">SE</option>
             <option value="TE">TE</option>
             <option value="BE">BE</option>
+          </select>
+        </div>
+
+        <div className="form-control">
+          <label htmlFor="div" id="label-div">
+            Branch
+          </label>
+          {errors.branch && (
+            <p className="text-red-600">Branch is required!</p>
+          )}
+          <select
+            name="branch"
+            onChange={(e) => {
+              setBranch(e.target.value);
+              setErrors({ ...errors, branch: false });
+            }}
+          >
+            <option value="Information Technology">
+              Information Technology
+            </option>
+            <option value="Computer Engineering">Computer Engineering</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Civil & Infrastructure Engineering">
+              Civil & Infrastructure Engineering
+            </option>
+            <option value="Electronics Engineering">
+              Electronics Engineering
+            </option>
+            <option value="Artificial Intelligence and Data Science">
+              Artificial Intelligence and Data Science
+            </option>
+            <option value="Mechanical Engineering">
+              Mechanical Engineering
+            </option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
           </select>
         </div>
 
