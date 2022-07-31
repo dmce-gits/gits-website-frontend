@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import Response from "./components/secondEventForm/Response";
+import Response from "./components/secondEventForm/Response.js";
 import Form from "./components/secondEventForm/Form";
 import HTML_CSS_JS_RESPONSES from "./components/firstEventForm/responses/HTML_CSS_JS_RESPONSES";
 import OPENSOURCE_RESPONSES from "./components/secondEventForm/responses/OPENSOURCE_RESPONSES";
