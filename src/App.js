@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import Response from "./components/firstEventForm/Response";
-import Form from "./components/firstEventForm/Form";
+import Response from "./components/secondEventform/Response";
+import Form from "./components/secondEventform/Form";
 import TableFormat from "./components/tableformat/TableFormat";
 import { Route, Routes } from "react-router-dom";
 

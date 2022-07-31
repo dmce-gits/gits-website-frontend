@@ -6,7 +6,7 @@ const TableFormat = () => {
   const [data, setData] = useState({});
   const dbRef = ref(getDatabase());
   useEffect(() => {
-    get(child(dbRef, `Registration/HTML-CSS-JS/`))
+    get(child(dbRef, `Registration/OPENSOURCE/`))
       .then((snapshot) => {
         setData(snapshot.val());
         if (snapshot.exists()) {
