@@ -22,7 +22,9 @@ const OPENSOURCE_RESPONSES = () => {
 
   return (
     <div className="text-white">
-      <h1 className="text-2xl font-bold my-3">RESPONSES</h1>
+      <h1 className="text-2xl font-bold my-3">
+        2nd Workshop : OPENSOURCE - RESPONSES
+      </h1>
       <table className="tg mb-4">
         <thead>
           <tr>
