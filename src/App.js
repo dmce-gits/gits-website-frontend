@@ -9,7 +9,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
 
 function App() {
-  const [accepting, setAccepting] = useState(false);
+  const [accepting, setAccepting] = useState(null);
   const dbRef = ref(getDatabase());
   useEffect(() => {
     get(child(dbRef, `TAKING_RESPONSES/`))
@@ -33,7 +33,11 @@ function App() {
           exact
           path="/"
           element={
-            accepting ? (
+            accepting === null ? (
+              <div className="h-screen text-white flex justify-items-center justify-center items-center">
+                Loading...
+              </div>
+            ) : accepting ? (
               !registerSubmitClicked ? (
                 <Form setRegisterSubmitClicked={setRegisterSubmitClicked} />
               ) : (
@@ -48,7 +52,10 @@ function App() {
           path="/HTML-CSS-JS-responses"
           element={<HTML_CSS_JS_RESPONSES />}
         />
-        <Route path="/OPENSOURE-responses" element={<OPENSOURCE_RESPONSES />} />
+        <Route
+          path="/OPENSOURE-responses"
+          element={<OPENSOURCE_RESPONSES />}
+        />
       </Routes>
     </div>
   );

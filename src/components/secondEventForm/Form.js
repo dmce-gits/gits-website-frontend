@@ -98,8 +98,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <p className="font-medium text-justify ">
               Open source workshop will help the participants to understand
               fundamentals of Git and GitHub, understand about open source
-              contiribution, how to upload your projects on repository, maintain
-              them and access your projects from anywhere at any anytime.
+              contiribution, how to upload your projects on repository,
+              maintain them and access your projects from anywhere at any
+              anytime.
             </p>
             <div className="flex flex-col mt-2 justify-center">
               <p>Event is conducted by :</p>
@@ -107,7 +108,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                 className="underline"
                 target="_blank"
                 rel="noreferrer noopeners"
-                href="https://www.linkedin.com/in/frozensamurai/"
+                href="https://github.com/FrozenSamurai/"
               >
                 1. Raj Jadhav
               </a>
@@ -116,7 +117,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                 className="underline"
                 target="_blank"
                 rel="noreferrer noopeners"
-                href="https://www.linkedin.com/in/yash-kandalkar-b5890b1aa/"
+                href="https://yashkandalkar.github.io/"
               >
                 2. Yash Kandalkar
               </a>
@@ -186,7 +187,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
           <label htmlFor="div" id="label-div">
             Branch
           </label>
-          {errors.branch && <p className="text-red-600">Branch is required!</p>}
+          {errors.branch && (
+            <p className="text-red-600">Branch is required!</p>
+          )}
           <select
             name="branch"
             onChange={(e) => {

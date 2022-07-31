@@ -26,15 +26,28 @@ const Response = () => {
               Your response has been recorded!
             </h3>
             <h4 className="text-lg font-bold mt-4"> Prerequisite</h4>
-            <p>1. Bring your laptop fully-charged and install VS Code in it.</p>
+            <p>
+              1. Bring your laptop fully-charged and install VS Code in it.
+            </p>
             <p>
               3. Install Git from
-              <a href="https://git-scm.com/" className="text-red-600">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://git-scm.com/"
+                className="text-red-600"
+              >
                 {" "}
                 https://git-scm.com/
               </a>
             </p>
-            <p>4. Also create your account on Github.</p>
+            <p>
+              4. Also create your account on{" "}
+              <a href="https://github.com/" className="text-red-600">
+                GitHub
+              </a>
+              .
+            </p>
           </div>
         </div>
         {/* <div className="form-control">
