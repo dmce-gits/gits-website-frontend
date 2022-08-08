@@ -1,4 +1,3 @@
-import { upload } from "@testing-library/user-event/dist/upload";
 import { useState, useRef } from "react";
 import {
   addEvent,
@@ -29,6 +28,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [image, setImage] = useState(null);
   const domainContainer = useRef(null);
   const [downloadURL, setDownloadURL] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const validateEmail = (email) => {
     return String(email)
@@ -37,27 +37,30 @@ const Form = ({ setRegisterSubmitClicked }) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
-  const uploader = (file) => {
+
+  const uploader = (file, callback) => {
     const storage = getStorage(firebaseApp);
-    const imagesRef = storageRef(storage, `/InternshipFair/${transactionId}`);
+    const imagesRef = storageRef(storage, `InternshipFair/${transactionId}`);
 
     uploadBytes(imagesRef, file)
       .then(() => {
+        downloader(callback);
         alert("Payment screenshot uploaded successfully");
         console.log("Image uploaded successfully");
-        downloader();
       })
       .catch((err) => {
         alert(err);
       });
     // downloader();
   };
-  const downloader = () => {
+
+  const downloader = (callback) => {
     const storage = getStorage(firebaseApp);
-    const imagesRef = storageRef(storage, `/InternshipFair/${transactionId}`);
+    const imagesRef = storageRef(storage, `InternshipFair/${transactionId}`);
     getDownloadURL(imagesRef)
       .then((url) => {
         setDownloadURL(url);
+        callback(url);
       })
       .catch((err) => {
         console.log(err);
@@ -153,10 +156,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           addTransactionId(
             { eventName: "interview-fair", transactionId, grNum },
             () => {
-              uploader(image);
-              if (downloadURL.trim() !== "") {
+              setUploadingImage(true);
+              uploader(image, (url) => {
+                setUploadingImage(false);
                 addEvent(
-                  data,
+                  { ...data, downloadURL: url },
                   () => {
                     setRegisterSubmitClicked(true);
                   },
@@ -164,7 +168,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                     console.log(err);
                   }
                 );
-              }
+              });
             },
             (err) => {
               console.error(err);
@@ -502,10 +506,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
+        {uploadingImage && <span>Uploading Image... Please wait!</span>}
         <div className="flex justify-center mx-3">
           <button
             onClick={onSubmit}
-            className="bg-blue-800 px-4 py-2 rounded-lg hover:bg-red-500 text-white"
+            className="bg-blue-800 px-4 py-2 rounded-lg hover:bg-red-500 text-white mt-4"
           >
             SUBMIT
           </button>
