@@ -22,9 +22,7 @@ const OPENSOURCE_RESPONSES = () => {
 
   return (
     <div className="text-white">
-      <h1 className="text-2xl font-bold my-3">
-        2nd Workshop : OPENSOURCE - RESPONSES
-      </h1>
+      <h1 className="text-2xl font-bold my-3">INTERVIEW FAIR</h1>
       <table className="tg mb-4">
         <thead>
           <tr>
@@ -51,6 +49,15 @@ const OPENSOURCE_RESPONSES = () => {
             </th>
             <th className="tg-0lax">
               <h1 className="font-semibold">Roll No.</h1>
+            </th>
+            <th className="tg-0lax">
+              <h1 className="font-semibold"> Phone No.</h1>
+            </th>
+            <th className="tg-0lax">
+              <h1 className="font-semibold"> Transaction Id</h1>
+            </th>
+            <th className="tg-0lax">
+              <h1 className="font-semibold"> Phone No.</h1>
             </th>
             <th className="tg-0lax">
               <h1 className="font-semibold"> Phone No.</h1>

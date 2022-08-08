@@ -26,27 +26,12 @@ const Response = () => {
               Your response has been recorded!
             </h3>
             <h4 className="text-lg font-bold mt-4"> Prerequisite</h4>
+            <p>1. Be in formal attire..</p>
+            <p>2. Bring your resume in Hardcopy.</p>
+            <b />
             <p>
-              1. Bring your laptop fully-charged and install VS Code in it.
-            </p>
-            <p>
-              3. Install Git from
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://git-scm.com/"
-                className="text-red-600"
-              >
-                {" "}
-                https://git-scm.com/
-              </a>
-            </p>
-            <p>
-              4. Also create your account on{" "}
-              <a href="https://github.com/" className="text-red-600">
-                GitHub
-              </a>
-              .
+              <b>Note :</b> Only one candidate will be allowed to sit for a
+              single interview.
             </p>
           </div>
         </div>

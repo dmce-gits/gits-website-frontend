@@ -1,6 +1,13 @@
+import { upload } from "@testing-library/user-event/dist/upload";
 import { useState } from "react";
-import { addEvent } from "../../firebase/eventApi";
+import {
+  addEvent,
+  getTransactionIds,
+  addTransactionId,
+} from "../../firebase/eventApi";
 import "./Form.css";
+import { getStorage, ref as storageRef, uploadBytes } from "firebase/storage";
+import { firebaseApp } from "../../firebase/init";
 
 const Form = ({ setRegisterSubmitClicked }) => {
   let [name, setName] = useState("");
@@ -11,8 +18,10 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [div, setDiv] = useState("A");
   const [rollNum, setRollNum] = useState("");
   const [grNum, setGrNum] = useState("");
-  let event = "OPENSOURCE";
+  let event = "InterviewFair";
+  const [transactionId, setTransactionId] = useState("");
   const [errors, setErrors] = useState({});
+  const [image, setImage] = useState(null);
 
   const validateEmail = (email) => {
     return String(email)
@@ -20,6 +29,18 @@ const Form = ({ setRegisterSubmitClicked }) => {
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
+  };
+  const uploader = (file) => {
+    const storage = getStorage(firebaseApp);
+    const imagesRef = storageRef(storage, `/InternshipFair/${transactionId}`);
+
+    uploadBytes(imagesRef, file)
+      .then(() => {
+        alert("Image uploaded");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const onSubmit = (e) => {
@@ -34,6 +55,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
       div,
       rollNum,
       grNum,
+      transactionId,
+      image,
     };
 
     let newErrors = {};
@@ -65,6 +88,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
     if (grNum.trim() === "") {
       newErrors = { ...newErrors, grNum: true };
     }
+    if (transactionId.trim() === "") {
+      newErrors = { ...newErrors, transactionId: true };
+    }
 
     setErrors(newErrors);
 
@@ -72,13 +98,39 @@ const Form = ({ setRegisterSubmitClicked }) => {
       return;
     }
 
-    addEvent(
-      data,
-      () => {
-        setRegisterSubmitClicked(true);
+    getTransactionIds(
+      { eventName: "internship-fair" },
+      (transactionIds) => {
+        if (transactionIds.includes(transactionId)) {
+          alert(
+            "This transaction ID is already in our database, please do not enter a duplicate transaction ID!"
+          );
+          return;
+        } else {
+          addTransactionId(
+            { eventName: "interview-fair", transactionId, grNum },
+            () => {
+              addEvent(
+                data,
+                () => {
+                  setRegisterSubmitClicked(true);
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
+              uploader(image);
+            },
+            (err) => {
+              console.error(err);
+              alert("Something BAD happened! Please try again later!");
+            }
+          );
+        }
       },
       (err) => {
-        console.log(err);
+        console.error(err);
+        alert("Something BAD happened! Please try again later!");
       }
     );
   };
@@ -93,44 +145,62 @@ const Form = ({ setRegisterSubmitClicked }) => {
               <img src="./GITS.png" alt="logo" className="w-20 h-fit" />
               <img src="./TechGits.png" alt="logo" className="w-20 h-fit" />
             </div>
-            <h1 className="font-bold text-center"> DMCE-GITS Presents</h1>
+            <h1 className="font-bold mb-0 text-center"> DMCE-GITS PRESENTS</h1>
 
-            <p className="font-medium text-justify ">
-              Open source workshop will help the participants to understand
-              fundamentals of Git and GitHub, understand about open source
-              contiribution, how to upload your projects on repository,
-              maintain them and access your projects from anywhere at any
-              anytime.
+            <h1 className="font-medium text-justify ">
+              <center>INTERNSHIP FAIR</center>
+              <br />
+            </h1>
+            <center>
+              <p>
+                WE , THE GITS COMMITTEE 22-23 , ORGANIZING A VERY INTERESTING
+                MOCK INTERVIEW PROGRAM for FRESHERS.
+              </p>
+              <br />
+              <p>
+                <b>HUSTLE UP - First company for mock interviews is here</b>
+              </p>
+            </center>
+            <br />
+            <p>
+              RED OWL SCHOOL in collaboration with Infinity Smart India is
+              providing an enriching, hands-on experience ,with exposure to
+              diverse projects while working alongside a team of incredibly
+              driven and and passionate people.
+              <br />
+            </p>
+
+            <p>
+              <br />
+              Opportunities don’t happen. You create them . To grab the
+              opportunity , fill out your details below . . .
+            </p>
+            <br />
+            <p>
+              <b>Note :</b> Only one candidate will be allowed to sit for a
+              single interview.
             </p>
             <div className="flex flex-col mt-2 justify-center">
-              <p>Event is conducted by :</p>
-              <a
-                className="underline"
-                target="_blank"
-                rel="noreferrer noopeners"
-                href="https://github.com/FrozenSamurai/"
-              >
-                1. Raj Jadhav
-              </a>
-
-              <a
-                className="underline"
-                target="_blank"
-                rel="noreferrer noopeners"
-                href="https://yashkandalkar.github.io/"
-              >
-                2. Yash Kandalkar
-              </a>
-              <h1 className="font-bold">
-                Event Timing:{" "}
-                <span className="text-red-600">2:00PM to 5:00PM</span>
+              <h1 className="font-bold mb-0">
+                Date:
+                <span className="text-red-600"> 8th August </span>
+              </h1>
+              <h1 className="font-bold mb-0">
+                Time:
+                <span className="text-red-600"> Afternoon onwards(12pm) </span>
+              </h1>
+              <h1 className="font-bold mb-0">
+                Venue:
+                <span className="text-red-600">
+                  Classroom - 809 or seminar hall{" "}
+                </span>
               </h1>
             </div>
           </div>
         </div>
 
         <div className="form-control">
-          <label htmlFor="name" id="label-name">
+          <label htmlFor="name" className="font-bold mb-0" id="label-name">
             Name
           </label>
           {errors.name && <p className="text-red-600">Name is required!</p>}
@@ -146,7 +216,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="email" id="label-email">
+          <label htmlFor="email" className="font-bold mb-0" id="label-email">
             Email
           </label>
           {errors.email && <p className="text-red-600">Email is required!</p>}
@@ -166,7 +236,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="div" id="label-div">
+          <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Year
           </label>
           {errors.year && <p className="text-red-600">Year is required!</p>}
@@ -184,12 +254,10 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="div" id="label-div">
+          <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Branch
           </label>
-          {errors.branch && (
-            <p className="text-red-600">Branch is required!</p>
-          )}
+          {errors.branch && <p className="text-red-600">Branch is required!</p>}
           <select
             name="branch"
             onChange={(e) => {
@@ -201,25 +269,25 @@ const Form = ({ setRegisterSubmitClicked }) => {
               Information Technology
             </option>
             <option value="Computer Engineering">Computer Engineering</option>
-            <option value="Civil Engineering">Civil Engineering</option>
-            <option value="Civil & Infrastructure Engineering">
+            {/* <option value="Civil Engineering">Civil Engineering</option> */}
+            {/* <option value="Civil & Infrastructure Engineering">
               Civil & Infrastructure Engineering
-            </option>
+            </option> */}
             <option value="Electronics Engineering">
               Electronics Engineering
             </option>
             <option value="Artificial Intelligence and Data Science">
               Artificial Intelligence and Data Science
             </option>
-            <option value="Mechanical Engineering">
+            {/* <option value="Mechanical Engineering">
               Mechanical Engineering
-            </option>
-            <option value="Chemical Engineering">Chemical Engineering</option>
+            </option> */}
+            {/* <option value="Chemical Engineering">Chemical Engineering</option> */}
           </select>
         </div>
 
         <div className="form-control">
-          <label htmlFor="div" id="label-div">
+          <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Div
           </label>
           {errors.div && <p className="text-red-600">Division is required!</p>}
@@ -236,7 +304,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="email" id="label-email">
+          <label htmlFor="email" className="font-bold mb-0" id="label-email">
             Roll NO
           </label>
           {errors.rollNum && (
@@ -254,7 +322,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
 
         <div className="form-control">
-          <label htmlFor="email" id="label-email">
+          <label className="font-bold mb-0" htmlFor="email" id="label-email">
             GR Number
           </label>
           {errors.grNum && (
@@ -269,9 +337,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
-
         <div className="form-control">
-          <label htmlFor="email" id="label-email">
+          <label htmlFor="email" className="font-bold mb-0" id="label-email">
             Phone Number
           </label>
           {errors.phone && (
@@ -284,6 +351,55 @@ const Form = ({ setRegisterSubmitClicked }) => {
             onChange={(e) => {
               setPhone(e.target.value);
               setErrors({ ...errors, phone: false });
+            }}
+          />
+        </div>
+        <div className="flex-col flex items-center justify-center space-y-2">
+          <span className="font-bold">
+            UPI ID: <span className="text-red-600">ishikamore2001@oksbi</span>
+            {" ; "}
+            Amount: {branch === "Information Technology" ? "30 Rs" : "50 Rs"}
+          </span>
+          <img
+            className="w-1/2 h-full"
+            src={
+              branch === "Information Technology"
+                ? "./IT.jpeg"
+                : "./others.jpeg"
+            }
+            alt="upiQR"
+          />
+        </div>
+        <div class="form-control mt-4">
+          <label className="font-bold mb-0">Enter your Transaction Id</label>
+          {errors.transactionId && (
+            <p className="text-red-600">Transaction ID is required!</p>
+          )}
+          <input
+            type="text"
+            name="transactionId"
+            placeholder="('Example: OIB9FQP9H7')/"
+            value={transactionId}
+            onChange={(e) => {
+              setTransactionId(e.target.value);
+              setErrors({ ...errors, transactionId: false });
+            }}
+          />
+        </div>
+        <div className="flex flex-col">
+          <h1 className="font-bold mb-0 text-left pb-2">
+            Upload Your Payment Screenshot
+          </h1>
+          <input
+            className="mb-5"
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+              console.log(e.target.files[0]);
+              // uploadImage(event.target.files[0], "image");
+              // console.log(e.target.files);
+              // uploader(e.target.files[0]);
             }}
           />
         </div>

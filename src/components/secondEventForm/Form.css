@@ -23,7 +23,7 @@ form {
 /* Styling form-control Label */
 .form-control label {
   display: block;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 /* Styling form-control input,
