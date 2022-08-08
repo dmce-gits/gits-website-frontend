@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./TableFormat.css";
 import { getDatabase, ref, child, get } from "firebase/database";
+import { getAllTransactions } from "../../firebase/eventApi";
 
 const TableFormat = () => {
   const [data, setData] = useState({});
+  const [registrations, setRegistrations] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+
   const dbRef = ref(getDatabase());
   useEffect(() => {
     get(child(dbRef, `Registration/OPENSOURCE/`))
@@ -18,6 +22,10 @@ const TableFormat = () => {
       .catch((error) => {
         console.error(error);
       });
+
+    getAllTransactions({ eventName: "interview-fair" }, (data) => {
+      setTransactions(data);
+    });
   }, [dbRef]);
 
   return (
@@ -30,13 +38,16 @@ const TableFormat = () => {
               <h1 className="font-semibold"> Sr. No.</h1>
             </th>
             <th className="tg-0lax">
+              <h1 className="font-semibold">GR. No.</h1>
+            </th>
+            <th className="tg-0lax">
               <h1 className="font-semibold">Name</h1>
             </th>
             <th className="tg-0lax">
-              <h1 className="font-semibold">Email</h1>
+              <h1 className="font-semibold">Transaction ID</h1>
             </th>
             <th className="tg-0lax">
-              <h1 className="font-semibold">GR. No.</h1>
+              <h1 className="font-semibold">Email</h1>
             </th>
             <th className="tg-0lax">
               <h1 className="font-semibold">Branch</h1>
@@ -56,20 +67,21 @@ const TableFormat = () => {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(data).map((key, num) => {
+          {Object.keys(data).map((grNum, num) => {
             return (
               <tr>
                 <td className="tg-0lax">{num + 1}</td>
-                <td className="tg-0lax">{data[key].name}</td>
-                <td className="tg-0lax">{data[key].email}</td>
-                <td className="tg-0lax">{data[key].stdid}</td>
+                <td className="tg-0lax">{grNum}</td>
+                <td className="tg-0lax">{data[grNum].name}</td>
+                <td className="tg-0lax">{data[grNum].transactionID}</td>
+                <td className="tg-0lax">{data[grNum].email}</td>
                 <td className="tg-0lax">
-                  {data[key].branch ?? "Information Technology"}
+                  {data[grNum].branch ?? "Information Technology"}
                 </td>
-                <td className="tg-0lax">{data[key].year}</td>
-                <td className="tg-0lax">{data[key].division}</td>
-                <td className="tg-0lax">{data[key].roll_no}</td>
-                <td className="tg-0lax">{key}</td>
+                <td className="tg-0lax">{data[grNum].year}</td>
+                <td className="tg-0lax">{data[grNum].division}</td>
+                <td className="tg-0lax">{data[grNum].roll_no}</td>
+                <td className="tg-0lax">{data[grNum].phone}</td>
               </tr>
             );
           })}

@@ -160,7 +160,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
               uploader(image, (url) => {
                 setUploadingImage(false);
                 addEvent(
-                  { ...data, downloadURL: url },
+                  { ...data, downloadURL: url, transactionId: transactionId },
                   () => {
                     setRegisterSubmitClicked(true);
                   },

@@ -17,6 +17,7 @@ const addEvent = (data, success, failure) => {
     roll_no: data.rollNum,
     domains: data.domains,
     download_link: data.downloadURL,
+    transactionId: data.transactionId,
   };
 
   set(eventRef, input)
@@ -35,6 +36,28 @@ const getTransactionIds = (data, success, failure) => {
     .then((snap) => {
       const transactions = snap.val() ?? {};
       success(Object.keys(transactions));
+    })
+    .catch(failure);
+};
+
+const getAllTransactions = (data, success, failure) => {
+  const db = getDatabase();
+  const transactionRef = ref(db, `Transaction/${data.eventName}`);
+  get(transactionRef)
+    .then((snap) => {
+      const transactions = snap.val() ?? {};
+      success(transactions);
+    })
+    .catch(failure);
+};
+
+const getAllRegistrations = (data, success, failure) => {
+  const db = getDatabase();
+  const registrationRef = ref(db, `Registration/${data.eventName}`);
+  get(registrationRef)
+    .then((snap) => {
+      const registrations = snap.val() ?? {};
+      success(registrations);
     })
     .catch(failure);
 };
@@ -58,4 +81,10 @@ const addTransactionId = (data, success, failure) => {
     });
 };
 
-export { addEvent, getTransactionIds, addTransactionId };
+export {
+  addEvent,
+  getTransactionIds,
+  addTransactionId,
+  getAllRegistrations,
+  getAllTransactions,
+};

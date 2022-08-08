@@ -3,7 +3,7 @@ import "./App.css";
 import Response from "./components/secondEventForm/Response";
 import Form from "./components/secondEventForm/Form";
 import HTML_CSS_JS_RESPONSES from "./components/firstEventForm/responses/HTML_CSS_JS_RESPONSES";
-import OPENSOURCE_RESPONSES from "./components/secondEventForm/responses/OPENSOURCE_RESPONSES";
+import INTERVIEWFAIR_RESPONSES from "./components/secondEventForm/responses/INTERVIEWFAIR_RESPONSES";
 import { Route, Routes } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
@@ -69,7 +69,10 @@ function App() {
           path="/HTML-CSS-JS-responses"
           element={<HTML_CSS_JS_RESPONSES />}
         />
-        <Route path="/OPENSOURE-responses" element={<OPENSOURCE_RESPONSES />} />
+        <Route
+          path="/INTERVIEWFAIR-responses"
+          element={<INTERVIEWFAIR_RESPONSES />}
+        />
       </Routes>
     </div>
   );
