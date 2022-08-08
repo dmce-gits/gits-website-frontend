@@ -464,9 +464,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           <img
             className="w-1/2 h-full"
             src={
-              branch === "Information Technology"
-                ? "./IT.jpeg"
-                : "./others.jpeg"
+              branch === "Information Technology" ? "/IT.jpeg" : "/others.jpeg"
             }
             alt="upiQR"
           />
