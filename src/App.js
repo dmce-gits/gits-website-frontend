@@ -24,6 +24,23 @@ function App() {
       .catch((error) => {
         console.error(error);
       });
+    get(child(dbRef, `Registration/InterviewFair/`))
+      .then((snapshot) => {
+        setAccepting(snapshot.val());
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          Object.keys(snapshot.val()).length === 100
+            ? setAccepting(false)
+            : setAccepting(true);
+          console.log(Object.keys(snapshot.val()).length);
+        } else {
+          setAccepting(true);
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, [dbRef]);
   const [registerSubmitClicked, setRegisterSubmitClicked] = useState(false);
   return (
@@ -52,10 +69,7 @@ function App() {
           path="/HTML-CSS-JS-responses"
           element={<HTML_CSS_JS_RESPONSES />}
         />
-        <Route
-          path="/OPENSOURE-responses"
-          element={<OPENSOURCE_RESPONSES />}
-        />
+        <Route path="/OPENSOURE-responses" element={<OPENSOURCE_RESPONSES />} />
       </Routes>
     </div>
   );

@@ -1,12 +1,17 @@
 import { upload } from "@testing-library/user-event/dist/upload";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   addEvent,
   getTransactionIds,
   addTransactionId,
 } from "../../firebase/eventApi";
 import "./Form.css";
-import { getStorage, ref as storageRef, uploadBytes } from "firebase/storage";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import { firebaseApp } from "../../firebase/init";
 
 const Form = ({ setRegisterSubmitClicked }) => {
@@ -22,6 +27,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [transactionId, setTransactionId] = useState("");
   const [errors, setErrors] = useState({});
   const [image, setImage] = useState(null);
+  const domainContainer = useRef(null);
+  const [downloadURL, setDownloadURL] = useState("");
 
   const validateEmail = (email) => {
     return String(email)
@@ -36,9 +43,24 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
     uploadBytes(imagesRef, file)
       .then(() => {
-        alert("Image uploaded");
+        alert("Payment screenshot uploaded successfully");
+        console.log("Image uploaded successfully");
+        downloader();
       })
       .catch((err) => {
+        alert(err);
+      });
+    // downloader();
+  };
+  const downloader = () => {
+    const storage = getStorage(firebaseApp);
+    const imagesRef = storageRef(storage, `/InternshipFair/${transactionId}`);
+    getDownloadURL(imagesRef)
+      .then((url) => {
+        setDownloadURL(url);
+      })
+      .catch((err) => {
+        console.log(err);
         alert(err);
       });
   };
@@ -57,6 +79,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
       grNum,
       transactionId,
       image,
+      downloadURL,
     };
 
     let newErrors = {};
@@ -91,12 +114,32 @@ const Form = ({ setRegisterSubmitClicked }) => {
     if (transactionId.trim() === "") {
       newErrors = { ...newErrors, transactionId: true };
     }
+    if (image === null) {
+      alert("Please upload Payment Screenshot");
+      newErrors = { ...newErrors, image: true };
+    }
+
+    const selectedDomains = [];
+    const domainInputs = domainContainer.current.getElementsByTagName("input");
+    for (let i of domainInputs) {
+      if (i.checked) {
+        selectedDomains.push(i.value);
+      }
+    }
+
+    if (!selectedDomains.length) {
+      newErrors = { ...newErrors, domains: true };
+    }
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length) {
       return;
     }
+
+    data.domains = selectedDomains.join(" ");
+
+    console.log(data.domains);
 
     getTransactionIds(
       { eventName: "internship-fair" },
@@ -110,16 +153,18 @@ const Form = ({ setRegisterSubmitClicked }) => {
           addTransactionId(
             { eventName: "interview-fair", transactionId, grNum },
             () => {
-              addEvent(
-                data,
-                () => {
-                  setRegisterSubmitClicked(true);
-                },
-                (err) => {
-                  console.log(err);
-                }
-              );
               uploader(image);
+              if (downloadURL.trim() !== "") {
+                addEvent(
+                  data,
+                  () => {
+                    setRegisterSubmitClicked(true);
+                  },
+                  (err) => {
+                    console.log(err);
+                  }
+                );
+              }
             },
             (err) => {
               console.error(err);
@@ -153,7 +198,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             </h1>
             <center>
               <p>
-                WE , THE GITS COMMITTEE 22-23 , ORGANIZING A VERY INTERESTING
+                WE, THE GITS COMMITTEE 22-23, ARE ORGANIZING A VERY INTERESTING
                 MOCK INTERVIEW PROGRAM for FRESHERS.
               </p>
               <br />
@@ -183,17 +228,14 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <div className="flex flex-col mt-2 justify-center">
               <h1 className="font-bold mb-0">
                 Date:
-                <span className="text-red-600"> 8th August </span>
+                <span className="text-red-600">
+                  {" "}
+                  8th August <span className="text-black">-</span> 12th August{" "}
+                </span>
               </h1>
               <h1 className="font-bold mb-0">
                 Time:
                 <span className="text-red-600"> Afternoon onwards(12pm) </span>
-              </h1>
-              <h1 className="font-bold mb-0">
-                Venue:
-                <span className="text-red-600">
-                  Classroom - 809 or seminar hall{" "}
-                </span>
               </h1>
             </div>
           </div>
@@ -354,12 +396,71 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
+        <div className="form-control">
+          <label htmlFor="domain" className="font-bold mb-0" id="label-email">
+            Your Preferred Domains
+          </label>
+          {errors.domains && (
+            <p className="text-red-600">Select at lease 1 domain!</p>
+          )}
+          <div ref={domainContainer} className="flex flex-col">
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                name="domain"
+                id="frontend"
+                value="frontend"
+              />
+              <label htmlFor="frontend">Frontend</label>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                name="domain"
+                id="backend"
+                value="backend"
+              />
+              <label htmlFor="backend">Backend</label>
+            </div>
+            <div className="flex gap-2">
+              <input type="checkbox" name="domain" id="ai-ml" value="ai-ml" />
+              <label htmlFor="ai-ml">AI/ML</label>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                name="domain"
+                id="data-science"
+                value="data-science"
+              />
+              <label htmlFor="data-science">Data Science</label>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                name="domain"
+                id="database-management"
+                value="database-management"
+              />
+              <label htmlFor="database-management">
+                Database Management (SQL)
+              </label>
+            </div>
+            <div className="flex gap-2">
+              <input type="checkbox" name="domain" id="iot" value="iot" />
+              <label htmlFor="iot">Electronics (IoT)</label>
+            </div>
+          </div>
+        </div>
         <div className="flex-col flex items-center justify-center space-y-2">
-          <span className="font-bold">
-            UPI ID: <span className="text-red-600">ishikamore2001@oksbi</span>
-            {" ; "}
-            Amount: {branch === "Information Technology" ? "30 Rs" : "50 Rs"}
-          </span>
+          <div className="flex flex-wrap space-x-2">
+            <span className="font-bold">
+              UPI ID: <span className="text-red-600">ishikamore2001@oksbi</span>
+            </span>
+            <span className="font-bold">
+              Amount: {branch === "Information Technology" ? "30 Rs" : "50 Rs"}
+            </span>
+          </div>
           <img
             className="w-1/2 h-full"
             src={
@@ -370,7 +471,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             alt="upiQR"
           />
         </div>
-        <div class="form-control mt-4">
+        <div className="form-control mt-4">
           <label className="font-bold mb-0">Enter your Transaction Id</label>
           {errors.transactionId && (
             <p className="text-red-600">Transaction ID is required!</p>

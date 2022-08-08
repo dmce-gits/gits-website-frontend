@@ -30,7 +30,7 @@ const Response = () => {
             <p>2. Bring your resume in Hardcopy.</p>
             <b />
             <p>
-              <b>Note :</b> Only one candidate will be allowed to sit for a
+              <b>Note :</b> One candidate will be allowed to sit for only one
               single interview.
             </p>
           </div>

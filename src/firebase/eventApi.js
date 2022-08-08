@@ -15,6 +15,8 @@ const addEvent = (data, success, failure) => {
     branch: data.branch,
     phone: data.phone,
     roll_no: data.rollNum,
+    domains: data.domains,
+    download_link: data.downloadURL,
   };
 
   set(eventRef, input)
