@@ -315,20 +315,20 @@ const Form = ({ setRegisterSubmitClicked }) => {
               Information Technology
             </option>
             <option value="Computer Engineering">Computer Engineering</option>
-            {/* <option value="Civil Engineering">Civil Engineering</option> */}
-            {/* <option value="Civil & Infrastructure Engineering">
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Civil & Infrastructure Engineering">
               Civil & Infrastructure Engineering
-            </option> */}
+            </option>
             <option value="Electronics Engineering">
               Electronics Engineering
             </option>
             <option value="Artificial Intelligence and Data Science">
               Artificial Intelligence and Data Science
             </option>
-            {/* <option value="Mechanical Engineering">
+            <option value="Mechanical Engineering">
               Mechanical Engineering
-            </option> */}
-            {/* <option value="Chemical Engineering">Chemical Engineering</option> */}
+            </option>
+            <option value="Chemical Engineering">Chemical Engineering</option>
           </select>
         </div>
 
