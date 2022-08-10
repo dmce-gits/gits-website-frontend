@@ -9,7 +9,7 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
 
 function App() {
-  const [accepting, setAccepting] = useState(null);
+  const [accepting, setAccepting] = useState(true);
   const dbRef = ref(getDatabase());
   useEffect(() => {
     get(child(dbRef, `TAKING_RESPONSES/`))
@@ -24,23 +24,23 @@ function App() {
       .catch((error) => {
         console.error(error);
       });
-    get(child(dbRef, `Registration/InterviewFair/`))
-      .then((snapshot) => {
-        setAccepting(snapshot.val());
-        if (snapshot.exists()) {
-          // console.log(snapshot.val());
-          Object.keys(snapshot.val()).length === 100
-            ? setAccepting(false)
-            : setAccepting(true);
-          console.log(Object.keys(snapshot.val()).length);
-        } else {
-          setAccepting(true);
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // get(child(dbRef, `Registration/InterviewFair/`))
+    //   .then((snapshot) => {
+    //     setAccepting(snapshot.val());
+    //     if (snapshot.exists()) {
+    //       // console.log(snapshot.val());
+    //       Object.keys(snapshot.val()).length === 100
+    //         ? setAccepting(false)
+    //         : console.log("not 100");
+    //       console.log(Object.keys(snapshot.val()).length);
+    //     } else {
+    //       // setAccepting(true);
+    //       console.log("No data available");
+    //     }
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    // });
   }, [dbRef]);
   const [registerSubmitClicked, setRegisterSubmitClicked] = useState(false);
   return (
