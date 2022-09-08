@@ -15,10 +15,11 @@ const addEvent = (data, success, failure) => {
     branch: data.branch,
     phone: data.phone,
     roll_no: data.rollNum,
-    domains: data.domains,
     download_link: data.downloadURL,
     transactionId: data.transactionId,
   };
+
+  data.eventsSelected.map((event) => (input[event] = true));
 
   set(eventRef, input)
     .then(() => {

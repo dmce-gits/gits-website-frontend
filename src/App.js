@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     get(child(dbRef, `TAKING_RESPONSES/`))
       .then((snapshot) => {
-        setAccepting(snapshot.val());
+        // setAccepting(snapshot.val());
         if (snapshot.exists()) {
           console.log(snapshot.val());
         } else {

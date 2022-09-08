@@ -13,6 +13,31 @@ import {
 } from "firebase/storage";
 import { firebaseApp } from "../../firebase/init";
 
+const events = {
+  "code-chase": {
+    name: "Code Chase",
+    fees: 30,
+    helperText: "",
+  },
+  hackhttp: {
+    name: "HackHTTP",
+    fees: 30,
+    helperText:
+      "Max team size is 2. Each team member must register separately.",
+  },
+  "neon-cricket": {
+    name: "Neon Cricket",
+    fees: 40,
+    helperText:
+      "Max team size is 5. Each team member must register separately.",
+  },
+  photography: {
+    name: "Photography",
+    fees: 50,
+    helperText: "",
+  },
+};
+
 const Form = ({ setRegisterSubmitClicked }) => {
   let [name, setName] = useState("");
   let [email, setEmail] = useState("");
@@ -22,11 +47,12 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [div, setDiv] = useState("A");
   const [rollNum, setRollNum] = useState("");
   const [grNum, setGrNum] = useState("");
-  let event = "InterviewFair";
+  let event = "Technitude";
   const [transactionId, setTransactionId] = useState("");
   const [errors, setErrors] = useState({});
   const [image, setImage] = useState(null);
-  const domainContainer = useRef(null);
+  const eventsContainer = useRef(null);
+  const [eventsSelected, setEventsSelected] = useState([]);
   const [downloadURL, setDownloadURL] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -40,7 +66,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
   const uploader = (file, callback) => {
     const storage = getStorage(firebaseApp);
-    const imagesRef = storageRef(storage, `InternshipFair/${transactionId}`);
+    const imagesRef = storageRef(storage, `Technitude/${transactionId}`);
 
     uploadBytes(imagesRef, file)
       .then(() => {
@@ -56,7 +82,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
   const downloader = (callback) => {
     const storage = getStorage(firebaseApp);
-    const imagesRef = storageRef(storage, `InternshipFair/${transactionId}`);
+    const imagesRef = storageRef(storage, `Technitude/${transactionId}`);
     getDownloadURL(imagesRef)
       .then((url) => {
         setDownloadURL(url);
@@ -122,16 +148,16 @@ const Form = ({ setRegisterSubmitClicked }) => {
       newErrors = { ...newErrors, image: true };
     }
 
-    const selectedDomains = [];
-    const domainInputs = domainContainer.current.getElementsByTagName("input");
-    for (let i of domainInputs) {
+    const selectedEvents = [];
+    const eventsInputs = eventsContainer.current.getElementsByTagName("input");
+    for (let i of eventsInputs) {
       if (i.checked) {
-        selectedDomains.push(i.value);
+        selectedEvents.push(i.value);
       }
     }
 
-    if (!selectedDomains.length) {
-      newErrors = { ...newErrors, domains: true };
+    if (!selectedEvents.length) {
+      newErrors = { ...newErrors, events: true };
     }
 
     setErrors(newErrors);
@@ -140,12 +166,12 @@ const Form = ({ setRegisterSubmitClicked }) => {
       return;
     }
 
-    data.domains = selectedDomains.join(" ");
+    data.eventsSelected = selectedEvents;
 
-    console.log(data.domains);
+    console.log(data.eventsSelected);
 
     getTransactionIds(
-      { eventName: "internship-fair" },
+      { eventName: "technitude" },
       (transactionIds) => {
         if (transactionIds.includes(transactionId)) {
           alert(
@@ -154,7 +180,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           return;
         } else {
           addTransactionId(
-            { eventName: "interview-fair", transactionId, grNum },
+            { eventName: "technitude", transactionId, grNum },
             () => {
               setUploadingImage(true);
               uploader(image, (url) => {
@@ -184,6 +210,20 @@ const Form = ({ setRegisterSubmitClicked }) => {
     );
   };
 
+  const onEventChange = () => {
+    const selectedEvents = [];
+    const eventsInputs = eventsContainer.current.getElementsByTagName("input");
+    for (let i of eventsInputs) {
+      if (i.checked) {
+        selectedEvents.push(i.value);
+      }
+    }
+
+    console.log(selectedEvents);
+
+    setEventsSelected(selectedEvents);
+  };
+
   return (
     <>
       <form id="form" onSubmit={(e) => e.preventDefault()}>
@@ -194,13 +234,13 @@ const Form = ({ setRegisterSubmitClicked }) => {
               <img src="./GITS.png" alt="logo" className="w-20 h-fit" />
               <img src="./TechGits.png" alt="logo" className="w-20 h-fit" />
             </div>
-            <h1 className="font-bold mb-0 text-center"> DMCE-GITS PRESENTS</h1>
+            <h1 className="font-bold mb-4 text-xl text-center">Technitude</h1>
 
-            <h1 className="font-medium text-justify ">
-              <center>INTERNSHIP FAIR</center>
+            {/* <h1 className="font-medium text-justify ">
+              <center>Technitude</center>
               <br />
-            </h1>
-            <center>
+            </h1> */}
+            {/* <center>
               <p>
                 WE, THE GITS COMMITTEE 22-23, ARE ORGANIZING A VERY INTERESTING
                 MOCK INTERVIEW PROGRAM for FRESHERS.
@@ -209,42 +249,25 @@ const Form = ({ setRegisterSubmitClicked }) => {
               <p>
                 <b>HUSTLE UP - First company for mock interviews is here</b>
               </p>
-            </center>
+            </center> */}
             <br />
             <p>
-              RED OWL SCHOOL in collaboration with Infinity Smart India is
-              providing an enriching, hands-on experience ,with exposure to
-              diverse projects while working alongside a team of incredibly
-              driven and and passionate people.
+              Technitude Event Desc.
               <br />
             </p>
 
-            <p>
-              <br />
-              Opportunities don’t happen. You create them . To grab the
-              opportunity , fill out your details below . . .
-            </p>
-            <br />
-            <p>
-              <b>Note :</b> Only one candidate will be allowed to sit for a
-              single interview.
-            </p>
             <div className="flex flex-col mt-2 justify-center">
               <h1 className="font-bold mb-0">
                 Date:
-                <span className="text-red-600">
-                  {" "}
-                  8th August <span className="text-black">-</span> 12th August{" "}
-                </span>
+                <span className="text-blue-900"> 15th, 16th September </span>
               </h1>
               <h1 className="font-bold mb-0">
                 Time:
-                <span className="text-red-600"> Afternoon onwards(12pm) </span>
+                <span className="text-blue-900"> ??? </span>
               </h1>
             </div>
           </div>
         </div>
-
         <div className="form-control">
           <label htmlFor="name" className="font-bold mb-0" id="label-name">
             Name
@@ -260,7 +283,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
-
         <div className="form-control">
           <label htmlFor="email" className="font-bold mb-0" id="label-email">
             Email
@@ -280,7 +302,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
-
         <div className="form-control">
           <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Year
@@ -298,12 +319,13 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <option value="BE">BE</option>
           </select>
         </div>
-
         <div className="form-control">
           <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Branch
           </label>
-          {errors.branch && <p className="text-red-600">Branch is required!</p>}
+          {errors.branch && (
+            <p className="text-red-600">Branch is required!</p>
+          )}
           <select
             name="branch"
             onChange={(e) => {
@@ -331,7 +353,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <option value="Chemical Engineering">Chemical Engineering</option>
           </select>
         </div>
-
         <div className="form-control">
           <label htmlFor="div" className="font-bold mb-0" id="label-div">
             Div
@@ -348,7 +369,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
             <option value="B">B</option>
           </select>
         </div>
-
         <div className="form-control">
           <label htmlFor="email" className="font-bold mb-0" id="label-email">
             Roll NO
@@ -366,7 +386,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
-
         <div className="form-control">
           <label className="font-bold mb-0" htmlFor="email" id="label-email">
             GR Number
@@ -401,116 +420,116 @@ const Form = ({ setRegisterSubmitClicked }) => {
           />
         </div>
         <div className="form-control">
-          <label htmlFor="domain" className="font-bold mb-0" id="label-email">
-            Your Preferred Domains
+          <label htmlFor="events" className="font-bold mb-0" id="label-email">
+            Events you want to participate in:
           </label>
-          {errors.domains && (
-            <p className="text-red-600">Select at lease 1 domain!</p>
+          {errors.events && (
+            <p className="text-red-600">Select at lease 1 event!</p>
           )}
-          <div ref={domainContainer} className="flex flex-col">
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                name="domain"
-                id="frontend"
-                value="frontend"
+          <div ref={eventsContainer} className="flex flex-col">
+            {Object.keys(events).map((event) => (
+              <div key={event}>
+                <div className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    name="events"
+                    id={event}
+                    value={event}
+                    onChange={onEventChange}
+                  />
+                  <label htmlFor={event}>
+                    {events[event].name}{" "}
+                    <span className="text-gray-800">
+                      (₹{events[event].fees}/-)
+                    </span>
+                  </label>
+                </div>
+                <p className="ml-5 italic text-slate-700 text-sm">
+                  {events[event].helperText}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+        {eventsSelected.length > 0 ? (
+          <>
+            <div className="flex-col flex items-center justify-center space-y-2">
+              <div className="flex flex-col space-x-2">
+                <span className="font-bold">
+                  UPI ID:{" "}
+                  <span className="text-red-600">ishikamore2001@oksbi</span>
+                </span>
+
+                <span className="font-bold">
+                  Amount:{" ₹"}
+                  {eventsSelected.reduce(
+                    (acc, curr) => acc + events[curr].fees,
+                    0
+                  )}
+                  /-
+                </span>
+
+                <span className="">
+                  <span className="font-bold">Paying For:</span> <br />
+                  {eventsSelected.map((el) => events[el].name).join(", ")}
+                </span>
+              </div>
+              <img
+                className="w-1/2 h-full"
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
+                  `upi://pay?pa=ishikamore2001@oksbi&pn=ISHIKA%20MORE&am=${eventsSelected.reduce(
+                    (acc, curr) => acc + events[curr].fees,
+                    0
+                  )}.00&cu=INR`
+                )}`}
+                alt="upiQR"
               />
-              <label htmlFor="frontend">Frontend</label>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                name="domain"
-                id="backend"
-                value="backend"
-              />
-              <label htmlFor="backend">Backend</label>
-            </div>
-            <div className="flex gap-2">
-              <input type="checkbox" name="domain" id="ai-ml" value="ai-ml" />
-              <label htmlFor="ai-ml">AI/ML</label>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                name="domain"
-                id="data-science"
-                value="data-science"
-              />
-              <label htmlFor="data-science">Data Science</label>
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                name="domain"
-                id="database-management"
-                value="database-management"
-              />
-              <label htmlFor="database-management">
-                Database Management (SQL)
+            <div className="form-control mt-4">
+              <label className="font-bold mb-0">
+                Enter your Transaction Id
               </label>
+              {errors.transactionId && (
+                <p className="text-red-600">Transaction ID is required!</p>
+              )}
+              <input
+                type="text"
+                name="transactionId"
+                placeholder="('Example: OIB9FQP9H7')/"
+                value={transactionId}
+                onChange={(e) => {
+                  setTransactionId(e.target.value);
+                  setErrors({ ...errors, transactionId: false });
+                }}
+              />
             </div>
-            <div className="flex gap-2">
-              <input type="checkbox" name="domain" id="iot" value="iot" />
-              <label htmlFor="iot">Electronics (IoT)</label>
+            <div className="flex flex-col">
+              <h1 className="font-bold mb-0 text-left pb-2">
+                Upload Your Payment Screenshot
+              </h1>
+              <input
+                className="mb-5"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                  console.log(e.target.files[0]);
+                  // uploadImage(event.target.files[0], "image");
+                  // console.log(e.target.files);
+                  // uploader(e.target.files[0]);
+                }}
+              />
             </div>
-          </div>
-        </div>
-        <div className="flex-col flex items-center justify-center space-y-2">
-          <div className="flex flex-wrap space-x-2">
-            <span className="font-bold">
-              UPI ID: <span className="text-red-600">ishikamore2001@oksbi</span>
-            </span>
-            <span className="font-bold">
-              Amount: {branch === "Information Technology" ? "30 Rs" : "50 Rs"}
-            </span>
-          </div>
-          <img
-            className="w-1/2 h-full"
-            src={
-              branch === "Information Technology" ? "/IT.jpeg" : "/others.jpeg"
-            }
-            alt="upiQR"
-          />
-        </div>
-        <div className="form-control mt-4">
-          <label className="font-bold mb-0">Enter your Transaction Id</label>
-          {errors.transactionId && (
-            <p className="text-red-600">Transaction ID is required!</p>
-          )}
-          <input
-            type="text"
-            name="transactionId"
-            placeholder="('Example: OIB9FQP9H7')/"
-            value={transactionId}
-            onChange={(e) => {
-              setTransactionId(e.target.value);
-              setErrors({ ...errors, transactionId: false });
-            }}
-          />
-        </div>
-        <div className="flex flex-col">
-          <h1 className="font-bold mb-0 text-left pb-2">
-            Upload Your Payment Screenshot
-          </h1>
-          <input
-            className="mb-5"
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-              console.log(e.target.files[0]);
-              // uploadImage(event.target.files[0], "image");
-              // console.log(e.target.files);
-              // uploader(e.target.files[0]);
-            }}
-          />
-        </div>
+          </>
+        ) : (
+          <p className="text-red-600">Select at lease 1 event!</p>
+        )}
         {uploadingImage && <span>Uploading Image... Please wait!</span>}
         <div className="flex justify-center mx-3">
           <button
             onClick={onSubmit}
-            className="bg-blue-800 px-4 py-2 rounded-lg hover:bg-red-500 text-white mt-4"
+            className="bg-blue-800 px-4 py-2 rounded-lg hover:bg-blue-600 text-white mt-4 disabled:bg-gray-500 disabled:cursor-not-allowed"
+            disabled={eventsSelected.length === 0}
           >
             SUBMIT
           </button>
