@@ -19,7 +19,9 @@ const addEvent = (data, success, failure) => {
     transactionId: data.transactionId,
   };
 
-  input.events = data.eventsSelected.map((event) => (input[event] = true));
+  input.events = {};
+
+  data.eventsSelected.map((event) => (input.events[event] = true));
 
   set(eventRef, input)
     .then(() => {
