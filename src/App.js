@@ -1,79 +1,130 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import Response from "./components/secondEventForm/Response";
-import Form from "./components/secondEventForm/Form";
-import HTML_CSS_JS_RESPONSES from "./components/firstEventForm/responses/HTML_CSS_JS_RESPONSES";
-import INTERVIEWFAIR_RESPONSES from "./components/secondEventForm/responses/INTERVIEWFAIR_RESPONSES";
-import { Route, Routes } from "react-router-dom";
-import { getDatabase, ref, child, get } from "firebase/database";
-import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
+import { useEffect, useState } from "react";
+import New from "./New";
 
 function App() {
-  const [accepting, setAccepting] = useState(true);
-  const dbRef = ref(getDatabase());
+  const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
+  // const obj = {
+  //   Yash: {
+  //     height: "0px",
+  //     front: "/Yash/front.jpeg",
+  //     top: "/Yash/top.jpeg",
+  //     buttom: "/Yash/buttom.jpeg",
+  //     left: "/Yash/left.jpeg",
+  //     right: "/Yash/right.jpeg",
+  //     topright: "/Yash/topright.jpeg",
+  //     topleft: "/Yash/topleft.jpeg",
+  //     buttomright: "/Yash/buttomright.jpeg",
+  //     buttomleft: "/Yash/buttomleft.jpeg",
+  //   },
+  //   Raj: {
+  //     height: "-180px",
+  //     front: "/Raj/front.jpeg",
+  //     top: "/Raj/top.jpeg",
+  //     buttom: "/Raj/buttom.jpeg",
+  //     left: "/Raj/left.jpeg",
+  //     right: "/Raj/right.jpeg",
+  //     topright: "/Raj/topright.jpeg",
+  //     topleft: "/Raj/topleft.jpeg",
+  //     buttomright: "/Raj/buttomright.jpeg",
+  //     buttomleft: "/Raj/buttomleft.jpeg",
+  //   },
+  // };
+
+  const obj1 = {
+    Dhruv: "/allmembers/Dhruv.jpg",
+    Deep: "/allmembers/Deep.jpg",
+    Nirmiti: "/allmembers/Nirmiti.jpg",
+    Manas: "/allmembers/Manas.jpg",
+    AthangB: "/allmembers/AthangB.jpg",
+    Ishika: "/allmembers/Ishika.jpg",
+    Aishwarya: "/allmembers/Aishwarya.jpg",
+    Snehal: "/allmembers/Snehal.jpg",
+    Maulya: "/allmembers/Maulya.jpg",
+    Saumya: "/allmembers/Saumya.jpg",
+    Shruti: "/allmembers/Shruti.jpg",
+    Krupa: "/allmembers/Krupa.jpg",
+    Aarushi: "/allmembers/Aarushi.jpg",
+    Prajna: "/allmembers/Prajna.jpg",
+    Aniket: "/allmembers/Aniket.jpg",
+    Atharvi: "/allmembers/Atharvi.jpg",
+    Pratik: "/allmembers/Pratik.jpg",
+    Prem: "/allmembers/Prem.jpg",
+    Amshitha: "/allmembers/Amshitha.jpg",
+    Tanmay: "/allmembers/Tanmay.jpg",
+    Mohan: "/allmembers/Mohan.jpg",
+    Pratham: "/allmembers/Pratham.jpg",
+    Muntzar: "/allmembers/Muntzar.jpg",
+    Sagar: "/allmembers/Sagar.jpg",
+    Harshal: "/allmembers/Harshal.jpg",
+    Jidnyasa: "/allmembers/Jidnyasa.jpg",
+    AthangP: "/allmembers/AthangP.jpg",
+    "You?": "/allmembers/You_.jpg",
+  };
+
+  const obj2 = {
+    Raj: "/allmembers/Raj.jpg",
+    Yash: "/allmembers/Yash.jpg",
+    Mrunmayee: "/allmembers/Mrunmayee.jpg",
+    Jay: "/allmembers/Jay.jpg",
+    Akshata: "/allmembers/Akshata.jpg",
+    Akshay: "/allmembers/Akshay.jpg",
+    Saikiran: "/allmembers/Saikiran.jpg",
+    Tanushree: "/allmembers/Tanushree.jpg",
+    "You?": "/allmembers/You_.jpg",
+  };
+
   useEffect(() => {
-    get(child(dbRef, `TAKING_RESPONSES/`))
-      .then((snapshot) => {
-        // setAccepting(snapshot.val());
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+    console.log("useEffect");
+    const body = document.getElementsByTagName("body")[0];
+    body.style.height = "110%";
+    body.onmousemove = (e) => {
+      setMouseCoords({
+        x: e.clientX,
+        y: e.clientY,
       });
-    // get(child(dbRef, `Registration/InterviewFair/`))
-    //   .then((snapshot) => {
-    //     setAccepting(snapshot.val());
-    //     if (snapshot.exists()) {
-    //       // console.log(snapshot.val());
-    //       Object.keys(snapshot.val()).length === 100
-    //         ? setAccepting(false)
-    //         : console.log("not 100");
-    //       console.log(Object.keys(snapshot.val()).length);
-    //     } else {
-    //       // setAccepting(true);
-    //       console.log("No data available");
-    //     }
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
-  }, [dbRef]);
-  const [registerSubmitClicked, setRegisterSubmitClicked] = useState(false);
+      console.log(e.clientX, e.clientY);
+    };
+}, []);
+
   return (
-    <div className="flex bg-backimage items-center justify-center bg-fixed">
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            accepting === null ? (
-              <div className="h-screen text-white flex justify-items-center justify-center items-center">
-                Loading...
-              </div>
-            ) : accepting ? (
-              !registerSubmitClicked ? (
-                <Form setRegisterSubmitClicked={setRegisterSubmitClicked} />
-              ) : (
-                <Response />
-              )
-            ) : (
-              <ResponsesStopped />
-            )
-          }
-        />
-        <Route
-          path="/HTML-CSS-JS-responses"
-          element={<HTML_CSS_JS_RESPONSES />}
-        />
-        <Route
-          path="/INTERVIEWFAIR-responses"
-          element={<INTERVIEWFAIR_RESPONSES />}
-        />
-      </Routes>
+    <div>
+      <h1 class="team-title text-center">Our Team</h1>
+      <div
+        className="flex flex-wrap justify-center items-center h-fit my-auto mx-auto"
+        style={{ width: "65%", cursor: "crosshair" }}
+      >
+        {mouseCoords &&
+          Object.keys(obj1).map((key, ind) => {
+            return (
+              <New
+                key={key}
+                name={obj1[key]}
+                mouseCoords={mouseCoords}
+                Id={key}
+                animationDelay={(ind + 1) * 0.1}
+              />
+            );
+          })}
+      </div>
+      <h1 class="team-title small text-center">TECH-GITS</h1>
+      <div
+        className="flex flex-wrap justify-center items-center h-fit my-auto mx-auto"
+        style={{ width: "65%", cursor: "crosshair" }}
+      >
+        {mouseCoords &&
+          Object.keys(obj2).map((key, ind) => {
+            return (
+              <New
+                key={key}
+                name={obj2[key]}
+                mouseCoords={mouseCoords}
+                Id={key}
+                animationDelay={(ind + 1) * 0.3}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 }
