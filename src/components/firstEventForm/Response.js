@@ -13,7 +13,7 @@ const Response = () => {
         <div className="form-control">
           <div
             id="logo"
-            class="flex flex-col justify-center items-center gap-3"
+            className="flex flex-col justify-center items-center gap-3"
           >
             <img src="./dmce-logo.jpg" alt="123" />
             <h6> DATTA MEGHE COLLEGE OF ENGINEERING</h6>
@@ -26,8 +26,12 @@ const Response = () => {
               Your response has been recorded!
             </h3>
             <h4 className="text-lg font-bold mt-4"> Prerequisite</h4>
-            <p>1. Bring your laptop fully-charged and install VS Code in it.</p>
-            <p>2. Download this Setup file,from the given link and unzip it.</p>
+            <p>
+              1. Bring your laptop fully-charged and install VS Code in it.
+            </p>
+            <p>
+              2. Download this Setup file,from the given link and unzip it.
+            </p>
           </div>
         </div>
         <div className="form-control">

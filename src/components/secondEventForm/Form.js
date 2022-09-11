@@ -12,27 +12,26 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { firebaseApp } from "../../firebase/init";
+import Modal from "react-modal";
 
 const events = {
-  "code-chase": {
-    name: "Code Chase",
+  "snap-to-win": {
+    name: "Snap To Win",
     fees: 30,
     helperText: "",
   },
-  hackhttp: {
-    name: "HackHTTP",
+  "pika-web": {
+    name: "PikaWeb",
     fees: 30,
-    helperText:
-      "Max team size is 2. Each team member must register separately.",
+    helperText: "",
   },
-  "neon-cricket": {
-    name: "Neon Cricket",
-    fees: 40,
-    helperText:
-      "Max team size is 5. Each team member must register separately.",
+  "kaun-banega-techgyani": {
+    name: "Kaun Banega Techgyani",
+    fees: 30,
+    helperText: "",
   },
   photography: {
-    name: "Photography",
+    name: "Picxellence",
     fees: 50,
     helperText: "",
   },
@@ -55,6 +54,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [eventsSelected, setEventsSelected] = useState([]);
   const [downloadURL, setDownloadURL] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentInfoModal, setCurrentInfoModal] = useState("");
 
   const validateEmail = (email) => {
     return String(email)
@@ -226,15 +228,189 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
   return (
     <>
+      {/* <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        
+      </Modal> */}
+      <Modal
+        isOpen={modalOpen}
+        // onAfterOpen={afterOpenModal}
+        onRequestClose={() => setModalOpen(false)}
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#E1FFEE",
+          },
+        }}
+        contentLabel="Example Modal"
+      >
+        <div
+          style={{
+            backgroundColor: "#E1FFEE",
+            padding: "20px",
+            borderRadius: "10px",
+            maxWidth: "500px",
+            marginRight: 0,
+          }}
+        >
+          {currentInfoModal === "snap-to-win" ? (
+            <p className="text-black text-center">
+              <center className="italic">
+                💎" With all six stones , I could simply snap my fingers " 💎
+              </center>
+              <br />
+              Hurry up and make today a treasure hunt of delight!🎉
+              <br />
+              ----✨🖥️ GITS DMCE 🖥️✨---- <br />
+              <span className="">Presents</span> <br />
+              <snap className="">
+                🏏 <span className="underline">SNAP TO WIN</span> 🏏
+              </snap>
+              <br />
+              <span className="my-4 block">
+                📢WE , THE GITS COMMITTEE OF 22-23, ARE ORGANIZING A TREASURE
+                HUNT COMPETITION !!! ✨
+              </span>
+              <span className="my-4 block">
+                📌In this competition , you hunt for the prize with your coding
+                skills.This event will be a one day event with lots of exciting
+                surprises,prizes and goodies on your way. So put your coding
+                glasses on 👓 and be a part of this amazing event.💥
+                <br />
+                This event will make you feel {"<3"} <br />“ I LOVE YOU 3000 ”
+              </span>
+            </p>
+          ) : currentInfoModal === "kaun-banega-techgyani" ? (
+            <>
+              <p className="text-black text-center">
+                <span className="italic">
+                  💎 "देवियों और सज्जनों, चलो हम और आप मिलकर खेलते है <br />
+                  KON BANEGA TECHGYANI" 💎
+                </span>
+                <br />
+                Hurry up and let's play the KBC game of TECH!🎉
+                <br />
+                ----✨🖥️ GITS DMCE 🖥️✨---- <br />
+                <span className="">Presents</span> <br />
+                <snap className="">
+                  💫 <span className="underline">Kaun Banega TechGyani</span>{" "}
+                  💫
+                </snap>
+                <br />
+                <span className="my-4 block">
+                  📢 WE, THE GITS COMMITTEE OF 22-23, IS ORGANIZING A KBC Based
+                  COMPETITION !!! ✨
+                </span>
+              </p>
+              <p>
+                📌 In this competition, you compete for the prize with your
+                IT-based skills along with our KBC format.{" "}
+              </p>
+              <p>
+                This event will be a one-day event with lots of exciting
+                surprises, prizes and goodies on your way. <br /> So put your
+                TECH skills glasses on 👓 and be a part of this amazing
+                event.💥
+              </p>
+            </>
+          ) : currentInfoModal === "pika-web" ? (
+            <>
+              <p className="text-black text-center">
+                <span className="italic mb-2 block">
+                  💎"Lets hit the nostalgia of childhood" 💎 <br />
+                </span>
+                Hurry up and lets play the Pokemon game of delight!🎉
+                <br />
+                ----✨🖥️ GITS DMCE 🖥️✨---- <br />
+                <span className="">Presents</span> <br />
+                <snap className="">
+                  💫 <span className="underline">PikaWeb</span> 💫
+                </snap>
+                <br />
+                <span className="my-4 block">
+                  📢WE , THE GITS COMMITTEE OF 22-23, IS ORGANIZING A Web Based
+                  Hackathon COMPETITION !!! ✨
+                </span>
+              </p>
+              <p>
+                📌In this competition , you compete for the prize with your WEB
+                dev skills Along with your favourite Pokemon. This event will
+                be a one day event with lots of exciting surprises, prizes and
+                goodies on your way.
+              </p>
+              <p>
+                So put your Frontend skills glasses on 👓 and be a part of this
+                amazing event.💥
+              </p>
+            </>
+          ) : currentInfoModal === "photography" ? (
+            <>
+              <p className="text-black text-center">
+                <span className="italic mb-2 block">
+                  “Anyone can shoot chaos. But the most perceptive
+                  photographers can make compelling pictures out of
+                  uninteresting moments.”
+                  <br /> – Alex Tehrani <br />
+                </span>
+                So to bring out the best photographers ..
+                <br />
+                ----✨🖥️ GITS DMCE 🖥️✨---- <br />
+                <span className="">Presents</span> <br />
+                <snap className="">
+                  💫📷 <span className="underline"> PICXELLENCE</span> 📷💫
+                </snap>
+                <br />
+                <span className="my-4 block">
+                  👉WE, THE GITS COMMITTEE OF 22-23, IS ORGANIZING A
+                  PHOTOGRAPHY CONTEST🤩🤩💥
+                </span>
+              </p>
+              <p>
+                📌GITS-DMCE is holding a photography competition. This will be
+                a one-day Event for which winners will be provided with
+                exciting prizes.
+              </p>
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+      </Modal>
       <form id="form" onSubmit={(e) => e.preventDefault()}>
         <div className="form-control">
           <div id="logo">
             <div className="flex flex-row justify-between items-center mb-3">
               <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-fit" />
-              <img src="./GITS.png" alt="logo" className="w-20 h-fit" />
-              <img src="./TechGits.png" alt="logo" className="w-20 h-fit" />
+              <img
+                src="./GITS LOGO-modified.png"
+                alt="logo"
+                className="w-20 h-fit"
+              />
+              <img
+                src="./output-onlinepngtools.png"
+                alt="logo"
+                className="w-20 h-fit"
+              />
             </div>
-            <h1 className="font-bold mb-4 text-xl text-center">Technitude</h1>
+            <h1
+              className="mt-8 mb-4 text-white text-4xl text-center"
+              style={{ fontFamily: "CounterStrike" }}
+            >
+              TECHNITUDE <br />
+              2022
+            </h1>
 
             {/* <h1 className="font-medium text-justify ">
               <center>Technitude</center>
@@ -251,25 +427,91 @@ const Form = ({ setRegisterSubmitClicked }) => {
               </p>
             </center> */}
             <br />
-            <p>
-              Technitude Event Desc.
+
+            <p className="text-white text-center">
+              ✨🖥️ GITS DMCE 🖥️✨ <br />
+              <span className="">Presents</span> <br />
+              <center className="">
+                <b style={{ fontFamily: "CounterStrike", fontSize: 30 }}>
+                  🔸TECHNITUDE🔸
+                </b>{" "}
+                <br /> A comprehensive annual event which brings students
+                aspiring various interests together on one ground and gives
+                them the opportunity to showcase their skills and talents
+              </center>
               <br />
             </p>
 
-            <div className="flex flex-col mt-2 justify-center">
-              <h1 className="font-bold mb-0">
-                Date:
-                <span className="text-blue-900"> 15th, 16th September </span>
-              </h1>
-              <h1 className="font-bold mb-0">
-                Time:
-                <span className="text-blue-900"> ??? </span>
-              </h1>
+            <div className="flex flex-col mt-2 mb-6 text-white justify-center">
+              <div>
+                <span className="font-bold">🗓️ Date:</span> 15th and 16th Sept
+              </div>
+              <div>
+                <span className="font-bold">⌚ Time:</span> 10 AM Onwards{" "}
+              </div>
+              <div>
+                <span className="font-bold">📍 Venue:</span>{" "}
+                <a
+                  href="https://www.google.com/maps/place/Datta+Meghe+College+Of+Engineering/@19.160322,72.9933793,17z/data=!3m1!4b1!4m5!3m4!1s0x3be7bf4daf8967d9:0xdd90bed2058f7eaa!8m2!3d19.160322!4d72.995568"
+                  target={"_blank"}
+                  rel="noreferrer noopener"
+                  className="text-blue-400"
+                >
+                  Datta Meghe College of Engineering, Airoli
+                </a>{" "}
+              </div>
             </div>
           </div>
         </div>
+        <div className="form-control text-white">
+          <label htmlFor="events" className="font-bold mb-0" id="label-email">
+            Select the events you want to participate in:
+          </label>
+          {errors.events && (
+            <p className="text-red-600">Select at lease 1 event!</p>
+          )}
+          <div ref={eventsContainer} className="flex flex-col">
+            {Object.keys(events).map((event) => (
+              <div key={event}>
+                <div className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    name="events"
+                    id={event}
+                    value={event}
+                    onChange={onEventChange}
+                  />
+                  <div className="flex flex-row">
+                    <label htmlFor={event}>
+                      {events[event].name}{" "}
+                      <span className="text-gray-300">
+                        (₹{events[event].fees}/-)
+                      </span>
+                    </label>
+                    <img
+                      src="/help-icon.png"
+                      onClick={() => {
+                        setModalOpen(true);
+                        setCurrentInfoModal(event);
+                      }}
+                      alt="help"
+                      className="w-4 h-4 inline-block mt-1 ml-2 cursor-pointer text-blue-400"
+                    />
+                  </div>
+                </div>
+                <p className="ml-5 italic text-slate-700 text-sm">
+                  {events[event].helperText}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="form-control">
-          <label htmlFor="name" className="font-bold mb-0" id="label-name">
+          <label
+            htmlFor="name"
+            className="font-bold mb-0 text-white"
+            id="label-name"
+          >
             Name
           </label>
           {errors.name && <p className="text-red-600">Name is required!</p>}
@@ -284,7 +526,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           />
         </div>
         <div className="form-control">
-          <label htmlFor="email" className="font-bold mb-0" id="label-email">
+          <label
+            htmlFor="email"
+            className="font-bold mb-0 text-white"
+            id="label-email"
+          >
             Email
           </label>
           {errors.email && <p className="text-red-600">Email is required!</p>}
@@ -303,7 +549,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           />
         </div>
         <div className="form-control">
-          <label htmlFor="div" className="font-bold mb-0" id="label-div">
+          <label
+            htmlFor="div"
+            className="font-bold mb-0 text-white"
+            id="label-div"
+          >
             Year
           </label>
           {errors.year && <p className="text-red-600">Year is required!</p>}
@@ -314,13 +564,18 @@ const Form = ({ setRegisterSubmitClicked }) => {
               setErrors({ ...errors, year: false });
             }}
           >
+            <option value="FE">FE</option>
             <option value="SE">SE</option>
             <option value="TE">TE</option>
             <option value="BE">BE</option>
           </select>
         </div>
         <div className="form-control">
-          <label htmlFor="div" className="font-bold mb-0" id="label-div">
+          <label
+            htmlFor="div"
+            className="font-bold mb-0 text-white"
+            id="label-div"
+          >
             Branch
           </label>
           {errors.branch && (
@@ -351,10 +606,15 @@ const Form = ({ setRegisterSubmitClicked }) => {
               Mechanical Engineering
             </option>
             <option value="Chemical Engineering">Chemical Engineering</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div className="form-control">
-          <label htmlFor="div" className="font-bold mb-0" id="label-div">
+          <label
+            htmlFor="div"
+            className="font-bold mb-0  text-white"
+            id="label-div"
+          >
             Div
           </label>
           {errors.div && <p className="text-red-600">Division is required!</p>}
@@ -370,7 +630,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           </select>
         </div>
         <div className="form-control">
-          <label htmlFor="email" className="font-bold mb-0" id="label-email">
+          <label
+            htmlFor="email"
+            className="font-bold mb-0  text-white"
+            id="label-email"
+          >
             Roll NO
           </label>
           {errors.rollNum && (
@@ -387,7 +651,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           />
         </div>
         <div className="form-control">
-          <label className="font-bold mb-0" htmlFor="email" id="label-email">
+          <label
+            className="font-bold mb-0  text-white"
+            htmlFor="email"
+            id="label-email"
+          >
             GR Number
           </label>
           {errors.grNum && (
@@ -403,7 +671,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
           />
         </div>
         <div className="form-control">
-          <label htmlFor="email" className="font-bold mb-0" id="label-email">
+          <label
+            htmlFor="email"
+            className="font-bold mb-0  text-white"
+            id="label-email"
+          >
             Phone Number
           </label>
           {errors.phone && (
@@ -419,59 +691,36 @@ const Form = ({ setRegisterSubmitClicked }) => {
             }}
           />
         </div>
-        <div className="form-control">
-          <label htmlFor="events" className="font-bold mb-0" id="label-email">
-            Events you want to participate in:
-          </label>
-          {errors.events && (
-            <p className="text-red-600">Select at lease 1 event!</p>
-          )}
-          <div ref={eventsContainer} className="flex flex-col">
-            {Object.keys(events).map((event) => (
-              <div key={event}>
-                <div className="flex gap-2">
-                  <input
-                    type="checkbox"
-                    name="events"
-                    id={event}
-                    value={event}
-                    onChange={onEventChange}
-                  />
-                  <label htmlFor={event}>
-                    {events[event].name}{" "}
-                    <span className="text-gray-800">
-                      (₹{events[event].fees}/-)
-                    </span>
-                  </label>
-                </div>
-                <p className="ml-5 italic text-slate-700 text-sm">
-                  {events[event].helperText}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+
         {eventsSelected.length > 0 ? (
           <>
             <div className="flex-col flex items-center justify-center space-y-2">
               <div className="flex flex-col space-x-2">
-                <span className="font-bold">
+                <span className="font-bold  text-white">
                   UPI ID:{" "}
-                  <span className="text-red-600">ishikamore2001@oksbi</span>
+                  <span className="text-red-600 bg-white px-1">
+                    ishikamore2001@oksbi
+                  </span>
                 </span>
 
-                <span className="font-bold">
-                  Amount:{" ₹"}
-                  {eventsSelected.reduce(
-                    (acc, curr) => acc + events[curr].fees,
-                    0
-                  )}
-                  /-
+                <span className="font-bold  text-white">
+                  Amount:
+                  <span className="bg-white text-red-600 px-1">
+                    {"₹"}
+                    {eventsSelected.reduce(
+                      (acc, curr) => acc + events[curr].fees,
+                      0
+                    )}
+                    /-
+                  </span>
                 </span>
 
                 <span className="">
-                  <span className="font-bold">Paying For:</span> <br />
-                  {eventsSelected.map((el) => events[el].name).join(", ")}
+                  <span className="font-bold  text-white">Paying For:</span>{" "}
+                  <br />
+                  <span className="bg-white px-1">
+                    {eventsSelected.map((el) => events[el].name).join(", ")}
+                  </span>
                 </span>
               </div>
               <img
@@ -486,7 +735,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
               />
             </div>
             <div className="form-control mt-4">
-              <label className="font-bold mb-0">
+              <label className="font-bold mb-0  text-white">
                 Enter your Transaction Id
               </label>
               {errors.transactionId && (
@@ -495,7 +744,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
               <input
                 type="text"
                 name="transactionId"
-                placeholder="('Example: OIB9FQP9H7')/"
+                placeholder="Example: OIB9FQP9H7"
                 value={transactionId}
                 onChange={(e) => {
                   setTransactionId(e.target.value);
@@ -504,11 +753,11 @@ const Form = ({ setRegisterSubmitClicked }) => {
               />
             </div>
             <div className="flex flex-col">
-              <h1 className="font-bold mb-0 text-left pb-2">
+              <h1 className="font-bold mb-0 text-left pb-2  text-white">
                 Upload Your Payment Screenshot
               </h1>
               <input
-                className="mb-5"
+                className="mb-5  text-white"
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
@@ -524,7 +773,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
         ) : (
           <p className="text-red-600">Select at lease 1 event!</p>
         )}
-        {uploadingImage && <span>Uploading Image... Please wait!</span>}
+        {uploadingImage && (
+          <span className=" text-white">Uploading Image... Please wait!</span>
+        )}
         <div className="flex justify-center mx-3">
           <button
             onClick={onSubmit}

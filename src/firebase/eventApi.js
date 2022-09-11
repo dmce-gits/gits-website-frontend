@@ -32,6 +32,19 @@ const addEvent = (data, success, failure) => {
     });
 };
 
+const addNeonCricket = (data, success, failure) => {
+  const db = getDatabase();
+  const eventRef = ref(db, `Registration/${data.event}/${data.grNum}`);
+
+  set(eventRef, data)
+    .then(() => {
+      success();
+    })
+    .catch((err) => {
+      failure(err);
+    });
+};
+
 const getTransactionIds = (data, success, failure) => {
   const db = getDatabase();
   const transactionRef = ref(db, `Transaction/${data.eventName}`);
@@ -90,4 +103,5 @@ export {
   addTransactionId,
   getAllRegistrations,
   getAllTransactions,
+  addNeonCricket,
 };

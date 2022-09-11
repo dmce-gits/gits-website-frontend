@@ -7,6 +7,9 @@ import INTERVIEWFAIR_RESPONSES from "./components/secondEventForm/responses/INTE
 import { Route, Routes } from "react-router-dom";
 import { getDatabase, ref, child, get } from "firebase/database";
 import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
+import Home from "./components/secondEventForm/Home";
+import NeonCricketForm from "./components/secondEventForm/NeonCricketForm";
+import ResponseNeon from "./components/secondEventForm/ResponsesNeon";
 
 function App() {
   const [accepting, setAccepting] = useState(true);
@@ -56,7 +59,7 @@ function App() {
               </div>
             ) : accepting ? (
               !registerSubmitClicked ? (
-                <Form setRegisterSubmitClicked={setRegisterSubmitClicked} />
+                <Home setRegisterSubmitClicked={setRegisterSubmitClicked} />
               ) : (
                 <Response />
               )
@@ -72,6 +75,27 @@ function App() {
         <Route
           path="/INTERVIEWFAIR-responses"
           element={<INTERVIEWFAIR_RESPONSES />}
+        />
+        <Route
+          path="/neon-cricket"
+          element={
+            accepting === null ? (
+              <div className="h-screen text-white flex justify-items-center justify-center items-center">
+                Loading...
+              </div>
+            ) : accepting ? (
+              !registerSubmitClicked ? (
+                <Home
+                  neonCricket
+                  setRegisterSubmitClicked={setRegisterSubmitClicked}
+                />
+              ) : (
+                <ResponseNeon />
+              )
+            ) : (
+              <ResponsesStopped />
+            )
+          }
         />
       </Routes>
     </div>

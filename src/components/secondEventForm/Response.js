@@ -13,7 +13,7 @@ const Response = () => {
         <div className="form-control">
           <div
             id="logo"
-            class="flex flex-col justify-center items-center gap-3"
+            className="flex flex-col justify-center items-center gap-3"
           >
             <img src="./dmce-logo.jpg" alt="123" />
             <h6> DATTA MEGHE COLLEGE OF ENGINEERING</h6>
@@ -25,13 +25,10 @@ const Response = () => {
             <h3 className="text-xl text-center">
               Your response has been recorded!
             </h3>
-            <h4 className="text-lg font-bold mt-4"> Prerequisite</h4>
-            <p>1. Be in formal attire..</p>
-            <p>2. Bring your resume in Hardcopy.</p>
-            <b />
-            <p>
-              <b>Note :</b> One candidate will be allowed to sit for only one
-              single interview.
+            <br />
+            <p className="text-center font-bold">
+              "Come with your college ID card or any college/school issued
+              document."
             </p>
           </div>
         </div>
