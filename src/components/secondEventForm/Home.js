@@ -31,7 +31,14 @@ const Home = ({ setRegisterSubmitClicked, neonCricket }) => {
             id="myVideo"
             className="fixed top-0 left-0 w-full z-10 h-screen object-fit md:object-cover bg-inherit cursor-pointer"
           >
-            <source src={"/technitude-intro.mp4"} type="video/mp4" />
+            <source
+              src={
+                window.innerWidth < 500
+                  ? "/technitude-intro-small.mp4"
+                  : "/technitude-intro.mp4"
+              }
+              type="video/mp4"
+            />
           </video>
           <div
             className={`fixed bottom-0 right-0 z-10 text-gray-500`}

@@ -23,7 +23,7 @@ const events = {
   "pika-web": {
     name: "PikaWeb",
     fees: 30,
-    helperText: "",
+    helperText: "Each team member has to register separately.",
   },
   "kaun-banega-techgyani": {
     name: "Kaun Banega Techgyani",
@@ -57,6 +57,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [currentInfoModal, setCurrentInfoModal] = useState("");
+  const [teamName, setTeamName] = useState("");
 
   const validateEmail = (email) => {
     return String(email)
@@ -99,6 +100,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const data = {
+      teamName: teamName,
       event,
       name,
       email,
@@ -144,6 +146,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
     }
     if (transactionId.trim() === "") {
       newErrors = { ...newErrors, transactionId: true };
+    }
+    if (eventsSelected.includes("pika-web") && teamName.trim() === "") {
+      newErrors = { ...newErrors, teamName: true };
     }
     if (image === null) {
       alert("Please upload Payment Screenshot");
@@ -412,20 +417,6 @@ const Form = ({ setRegisterSubmitClicked }) => {
               2022
             </h1>
 
-            {/* <h1 className="font-medium text-justify ">
-              <center>Technitude</center>
-              <br />
-            </h1> */}
-            {/* <center>
-              <p>
-                WE, THE GITS COMMITTEE 22-23, ARE ORGANIZING A VERY INTERESTING
-                MOCK INTERVIEW PROGRAM for FRESHERS.
-              </p>
-              <br />
-              <p>
-                <b>HUSTLE UP - First company for mock interviews is here</b>
-              </p>
-            </center> */}
             <br />
 
             <p className="text-white text-center">
@@ -468,7 +459,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             Select the events you want to participate in:
           </label>
           {errors.events && (
-            <p className="text-red-600">Select at lease 1 event!</p>
+            <p className="text-red-300">Select at lease 1 event!</p>
           )}
           <div ref={eventsContainer} className="flex flex-col">
             {Object.keys(events).map((event) => (
@@ -499,13 +490,38 @@ const Form = ({ setRegisterSubmitClicked }) => {
                     />
                   </div>
                 </div>
-                <p className="ml-5 italic text-slate-700 text-sm">
+                <p className="ml-5 italic text-slate-300 text-sm">
                   {events[event].helperText}
                 </p>
               </div>
             ))}
           </div>
         </div>
+        {eventsSelected.includes("pika-web") && (
+          <div className="form-control">
+            <label
+              htmlFor="teamName"
+              className="font-bold mb-0 text-white"
+              id="label-team-name"
+            >
+              Team Name (For Pika Web)
+            </label>
+            {errors.teamName && (
+              <p className="text-red-300">
+                Team Name is required for PikaWeb!
+              </p>
+            )}
+            <input
+              type="text"
+              id="teamName"
+              placeholder="Enter your Team Name"
+              onChange={(e) => {
+                setTeamName(e.target.value);
+                setErrors({ ...errors, teamName: false });
+              }}
+            />
+          </div>
+        )}
         <div className="form-control">
           <label
             htmlFor="name"
@@ -514,7 +530,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           >
             Name
           </label>
-          {errors.name && <p className="text-red-600">Name is required!</p>}
+          {errors.name && <p className="text-red-300">Name is required!</p>}
           <input
             type="text"
             id="name"
@@ -533,9 +549,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
           >
             Email
           </label>
-          {errors.email && <p className="text-red-600">Email is required!</p>}
+          {errors.email && <p className="text-red-300">Email is required!</p>}
           {!errors.email && errors.emailInvalid && (
-            <p className="text-red-600">Please enter a valid email address!</p>
+            <p className="text-red-300">Please enter a valid email address!</p>
           )}
           <input
             type="email"
@@ -556,7 +572,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           >
             Year
           </label>
-          {errors.year && <p className="text-red-600">Year is required!</p>}
+          {errors.year && <p className="text-red-300">Year is required!</p>}
           <select
             name="year"
             onChange={(e) => {
@@ -579,7 +595,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             Branch
           </label>
           {errors.branch && (
-            <p className="text-red-600">Branch is required!</p>
+            <p className="text-red-300">Branch is required!</p>
           )}
           <select
             name="branch"
@@ -617,7 +633,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           >
             Div
           </label>
-          {errors.div && <p className="text-red-600">Division is required!</p>}
+          {errors.div && <p className="text-red-300">Division is required!</p>}
           <select
             name="div"
             onChange={(e) => {
@@ -638,7 +654,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             Roll NO
           </label>
           {errors.rollNum && (
-            <p className="text-red-600">Roll Number is required!</p>
+            <p className="text-red-300">Roll Number is required!</p>
           )}
           <input
             type="number"
@@ -652,14 +668,17 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
         <div className="form-control">
           <label
-            className="font-bold mb-0  text-white"
+            className="font-bold mb-0 text-white"
             htmlFor="email"
             id="label-email"
           >
-            GR Number
+            GR Number/Student ID
           </label>
+          <span className="italic text-gray-300 mb-2 block text-sm">
+            (if not available, enter your mobile number)
+          </span>
           {errors.grNum && (
-            <p className="text-red-600">GR Number is required!</p>
+            <p className="text-red-300">GR Number is required!</p>
           )}
           <input
             id="stdid"
@@ -679,7 +698,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             Phone Number
           </label>
           {errors.phone && (
-            <p className="text-red-600">Phone Number is required!</p>
+            <p className="text-red-300">Phone Number is required!</p>
           )}
           <input
             type="number"
@@ -698,14 +717,14 @@ const Form = ({ setRegisterSubmitClicked }) => {
               <div className="flex flex-col space-x-2">
                 <span className="font-bold  text-white">
                   UPI ID:{" "}
-                  <span className="text-red-600 bg-white px-1">
+                  <span className="text-red-300 bg-white px-1">
                     ishikamore2001@oksbi
                   </span>
                 </span>
 
                 <span className="font-bold  text-white">
                   Amount:
-                  <span className="bg-white text-red-600 px-1">
+                  <span className="bg-white text-red-300 px-1">
                     {"₹"}
                     {eventsSelected.reduce(
                       (acc, curr) => acc + events[curr].fees,
@@ -739,7 +758,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                 Enter your Transaction Id
               </label>
               {errors.transactionId && (
-                <p className="text-red-600">Transaction ID is required!</p>
+                <p className="text-red-300">Transaction ID is required!</p>
               )}
               <input
                 type="text"
@@ -771,7 +790,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
             </div>
           </>
         ) : (
-          <p className="text-red-600">Select at lease 1 event!</p>
+          <p className="text-red-300">Select at lease 1 event!</p>
         )}
         {uploadingImage && (
           <span className=" text-white">Uploading Image... Please wait!</span>

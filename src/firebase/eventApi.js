@@ -8,6 +8,7 @@ const addEvent = (data, success, failure) => {
   const db = getDatabase();
   const eventRef = ref(db, `Registration/${data.event}/${data.grNum}`);
   const input = {
+    teamName: data.teamName ?? false,
     name: data.name,
     email: data.email,
     division: data.div,

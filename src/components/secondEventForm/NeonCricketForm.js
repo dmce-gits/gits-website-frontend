@@ -15,6 +15,7 @@ import {
 import { firebaseApp } from "../../firebase/init";
 
 const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
+  const [teamName, setTeamName] = useState("");
   let [p1name, setP1name] = useState("");
   let [p2name, setP2name] = useState("");
   let [p3name, setP3name] = useState("");
@@ -70,6 +71,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const data = {
+      teamName,
       event,
       grNum,
       year,
@@ -92,6 +94,9 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
 
     let newErrors = {};
 
+    if (teamName.trim() === "") {
+      newErrors = { ...newErrors, teamName: true };
+    }
     if (p1name.trim() === "") {
       newErrors = { ...newErrors, p1name: true };
     }
@@ -221,16 +226,6 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
             >
               <center>Neon Cricket</center>
             </h1>
-            {/* <center>
-                <p>
-                  WE, THE GITS COMMITTEE 22-23, ARE ORGANIZING A VERY INTERESTING
-                  MOCK INTERVIEW PROGRAM for FRESHERS.
-                </p>
-                <br />
-                <p>
-                  <b>HUSTLE UP - First company for mock interviews is here</b>
-                </p>
-              </center> */}
             <br />
             <p className="text-white text-center">
               <center className="italic">
@@ -275,6 +270,24 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
           </div>
 
           <div className="flex flex-col space-y-2 text-[#1C6758] ">
+            <div className="space-y-1  border-2 rounded-lg border-black p-3 bg-[#D2D79F]">
+              <div>
+                <h1 className="font-mono font-semibold ">Team Name</h1>
+                <input
+                  classname="rounded-md px-1 py-0"
+                  type="text"
+                  placeholder="Enter Team Name"
+                  value={teamName}
+                  onChange={(e) => {
+                    setTeamName(e.target.value);
+                    setErrors({ ...errors, teamName: false });
+                  }}
+                />
+                {errors.teamName && (
+                  <p className="text-red-600">Team Name is required!</p>
+                )}
+              </div>
+            </div>
             <div className="space-y-1  border-2 rounded-lg border-black p-3 bg-[#D2D79F]">
               <div>
                 <h1 className="font-mono font-semibold ">
