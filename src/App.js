@@ -68,14 +68,14 @@ function App() {
             )
           }
         />
-        <Route
+        {/* <Route
           path="/HTML-CSS-JS-responses"
           element={<HTML_CSS_JS_RESPONSES />}
         />
         <Route
           path="/INTERVIEWFAIR-responses"
           element={<INTERVIEWFAIR_RESPONSES />}
-        />
+        /> */}
         <Route
           path="/neon-cricket"
           element={
