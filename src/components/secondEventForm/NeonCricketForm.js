@@ -164,7 +164,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
           return;
         } else {
           addTransactionId(
-            { eventName: "NeonCricket", transactionId, grNum: p1phone },
+            { eventName: "NeonCricket", transactionId, grNum },
             () => {
               setUploadingImage(true);
               uploader(image, (url) => {
@@ -200,16 +200,16 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
         <div className="form-control">
           <div id="logo">
             <div className="flex flex-row justify-between items-center mb-3">
-              <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-fit" />
+              <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-20" />
               <img
                 src="./GITS LOGO-modified.png"
                 alt="logo"
-                className="w-20 h-fit"
+                className="w-20 h-20"
               />
               <img
                 src="./output-onlinepngtools.png"
                 alt="logo"
-                className="w-20 h-fit"
+                className="w-20 h-20"
               />
             </div>
             <h1
@@ -274,7 +274,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
               <div>
                 <h1 className="font-mono font-semibold ">Team Name</h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Team Name"
                   value={teamName}
@@ -294,7 +294,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                   Name of Player 1 (Captain):
                 </h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Name"
                   value={p1name}
@@ -313,7 +313,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                 </h1>
 
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   placeholder="Enter Phone Number"
@@ -327,7 +327,12 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                   <p className="text-red-600">Player 1 Phone is required!</p>
                 )}
                 <div>
-                  <h1 className="font-mono font-semibold">GR Number:</h1>
+                  <h1 className="font-mono font-semibold">
+                    GR Number/Student ID:
+                  </h1>
+                  <span className="italic mb-2 block text-sm">
+                    (if not available, enter your mobile number)
+                  </span>
                   <input
                     type="text"
                     value={grNum}
@@ -371,7 +376,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
               <div>
                 <h1 className="font-mono font-semibold">Name of Player 2:</h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Name"
                   value={p2name}
@@ -390,7 +395,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                 </h1>
 
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   placeholder="Enter Phone Number"
@@ -409,7 +414,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
               <div>
                 <h1 className="font-mono font-semibold">Name of Player 3:</h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Name"
                   value={p3name}
@@ -428,7 +433,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                 </h1>
 
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   placeholder="Enter Phone Number"
@@ -447,7 +452,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
               <div>
                 <h1 className="font-mono font-semibold">Name of Player 4:</h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Name"
                   value={p4name}
@@ -466,7 +471,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                 </h1>
 
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   placeholder="Enter Phone Number"
@@ -485,7 +490,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
               <div>
                 <h1 className="font-mono font-semibold">Name of Player 5:</h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="text"
                   placeholder="Enter Name"
                   value={p5name}
@@ -503,7 +508,7 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
                   Player 5 Phone Number:
                 </h1>
                 <input
-                  classname="rounded-md px-1 py-0"
+                  className="rounded-md px-1 py-0"
                   type="number"
                   onWheel={(e) => e.target.blur()}
                   placeholder="Enter Phone Number"
@@ -621,6 +626,14 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
 
         {uploadingImage && (
           <span className="text-white">Uploading Image... Please wait!</span>
+        )}
+        {Object.keys(errors).length &&
+        Object.values(errors).every((el) => el === true) ? (
+          <p className="text-red-400 text-xl">
+            Please fill all the required fields!
+          </p>
+        ) : (
+          ""
         )}
         <div className="flex justify-center mx-3">
           <button

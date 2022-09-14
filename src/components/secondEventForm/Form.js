@@ -58,6 +58,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentInfoModal, setCurrentInfoModal] = useState("");
   const [teamName, setTeamName] = useState("");
+  const [college, setCollege] = useState("");
+  const firstInput = useRef(null);
 
   const validateEmail = (email) => {
     return String(email)
@@ -113,6 +115,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
       transactionId,
       image,
       downloadURL,
+      college,
     };
 
     let newErrors = {};
@@ -122,6 +125,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
     }
     if (email.trim() === "") {
       newErrors = { ...newErrors, email: true };
+      console.log("email is true");
     }
     if (!validateEmail(email.trim())) {
       newErrors = { ...newErrors, emailInvalid: true };
@@ -146,6 +150,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
     }
     if (transactionId.trim() === "") {
       newErrors = { ...newErrors, transactionId: true };
+    }
+    if (college.trim() === "") {
+      newErrors = { ...newErrors, college: true };
     }
     if (eventsSelected.includes("pika-web") && teamName.trim() === "") {
       newErrors = { ...newErrors, teamName: true };
@@ -397,16 +404,16 @@ const Form = ({ setRegisterSubmitClicked }) => {
         <div className="form-control">
           <div id="logo">
             <div className="flex flex-row justify-between items-center mb-3">
-              <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-fit" />
+              <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-20" />
               <img
                 src="./GITS LOGO-modified.png"
                 alt="logo"
-                className="w-20 h-fit"
+                className="w-20 h-20"
               />
               <img
                 src="./output-onlinepngtools.png"
                 alt="logo"
-                className="w-20 h-fit"
+                className="w-20 h-20"
               />
             </div>
             <h1
@@ -455,13 +462,20 @@ const Form = ({ setRegisterSubmitClicked }) => {
           </div>
         </div>
         <div className="form-control text-white">
-          <label htmlFor="events" className="font-bold mb-0" id="label-email">
+          <label
+            htmlFor="events"
+            className="font-bold mb-0 text-xl"
+            id="label-events"
+          >
             Select the events you want to participate in:
           </label>
           {errors.events && (
-            <p className="text-red-300">Select at lease 1 event!</p>
+            <p className="text-red-300">Select at least 1 event!</p>
           )}
-          <div ref={eventsContainer} className="flex flex-col">
+          <div
+            ref={eventsContainer}
+            className="flex flex-col space-y-1  border-2 rounded-lg border-black p-3 bg-[#D2D79F] text-[#1C6758]"
+          >
             {Object.keys(events).map((event) => (
               <div key={event}>
                 <div className="flex gap-2">
@@ -475,7 +489,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                   <div className="flex flex-row">
                     <label htmlFor={event}>
                       {events[event].name}{" "}
-                      <span className="text-gray-300">
+                      <span className="opacity-70 text-[#1C6758]">
                         (₹{events[event].fees}/-)
                       </span>
                     </label>
@@ -490,7 +504,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
                     />
                   </div>
                 </div>
-                <p className="ml-5 italic text-slate-300 text-sm">
+                <p className="ml-5 italic text-[#1C6758] opacity-90 text-sm">
                   {events[event].helperText}
                 </p>
               </div>
@@ -559,8 +573,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
             placeholder="Enter your email"
             onChange={(e) => {
               setEmail(e.target.value);
-              setErrors({ ...errors, email: false });
-              setErrors({ ...errors, emailInvalid: false });
+              console.log(e.target.value);
+              setErrors({ ...errors, email: false, emailInvalid: false });
             }}
           />
         </div>
@@ -647,9 +661,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
         <div className="form-control">
           <label
-            htmlFor="email"
+            htmlFor="rollnum"
             className="font-bold mb-0  text-white"
-            id="label-email"
+            id="label-rollnum"
           >
             Roll NO
           </label>
@@ -658,7 +672,7 @@ const Form = ({ setRegisterSubmitClicked }) => {
           )}
           <input
             type="number"
-            id="number"
+            id="rollnum"
             placeholder="Enter your rollno"
             onChange={(e) => {
               setRollNum(e.target.value);
@@ -669,8 +683,8 @@ const Form = ({ setRegisterSubmitClicked }) => {
         <div className="form-control">
           <label
             className="font-bold mb-0 text-white"
-            htmlFor="email"
-            id="label-email"
+            htmlFor="stdid"
+            id="label-stdid"
           >
             GR Number/Student ID
           </label>
@@ -691,9 +705,9 @@ const Form = ({ setRegisterSubmitClicked }) => {
         </div>
         <div className="form-control">
           <label
-            htmlFor="email"
+            htmlFor="phonenum"
             className="font-bold mb-0  text-white"
-            id="label-email"
+            id="label-phonenum"
           >
             Phone Number
           </label>
@@ -702,11 +716,32 @@ const Form = ({ setRegisterSubmitClicked }) => {
           )}
           <input
             type="number"
-            id="number"
+            id="phonenum"
             placeholder="Enter your Phone Number "
             onChange={(e) => {
               setPhone(e.target.value);
               setErrors({ ...errors, phone: false });
+            }}
+          />
+        </div>
+        <div className="form-control">
+          <label
+            htmlFor="college"
+            className="font-bold mb-0 text-white"
+            id="label-college"
+          >
+            College
+          </label>
+          {errors.college && (
+            <p className="text-red-300">College is required!</p>
+          )}
+          <input
+            type="text"
+            id="college"
+            placeholder="Enter your College Name"
+            onChange={(e) => {
+              setCollege(e.target.value);
+              setErrors({ ...errors, college: false });
             }}
           />
         </div>
@@ -790,7 +825,15 @@ const Form = ({ setRegisterSubmitClicked }) => {
             </div>
           </>
         ) : (
-          <p className="text-red-300">Select at lease 1 event!</p>
+          <p className="text-red-400 text-xl">Select at least 1 event!</p>
+        )}
+        {Object.keys(errors).length &&
+        Object.values(errors).every((el) => el === true) ? (
+          <p className="text-red-400 text-xl">
+            Please fill all the required fields!
+          </p>
+        ) : (
+          ""
         )}
         {uploadingImage && (
           <span className=" text-white">Uploading Image... Please wait!</span>

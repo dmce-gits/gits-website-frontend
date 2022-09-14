@@ -18,20 +18,10 @@ body {
     url(./assets/fonts/Counter-StrikeRegular.woff) format("woff");
 }
 
-/* @font-face {
-  font-family: 'Counter-Strike';
-  src: url('Counter-StrikeRegular.woff2') format('woff2'),
-      url('Counter-StrikeRegular.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-} */
-
 body > div.ReactModalPortal > div {
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, "Courier New", monospace;
 }

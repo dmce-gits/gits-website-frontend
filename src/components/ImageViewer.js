@@ -3,7 +3,6 @@ import Viewer from "react-viewer";
 
 const ImageViewer = ({ src }) => {
   const [visible, setVisible] = React.useState(false);
-  console.log(src);
   return !visible ? (
     <img
       onClick={() => setVisible(true)}

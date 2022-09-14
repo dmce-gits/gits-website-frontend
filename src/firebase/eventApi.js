@@ -11,6 +11,8 @@ const addEvent = (data, success, failure) => {
     teamName: data.teamName ?? false,
     name: data.name,
     email: data.email,
+    college: data.college,
+    timestamp: Date.now(),
     division: data.div,
     year: data.year,
     branch: data.branch,
@@ -37,7 +39,7 @@ const addNeonCricket = (data, success, failure) => {
   const db = getDatabase();
   const eventRef = ref(db, `Registration/${data.event}/${data.grNum}`);
 
-  set(eventRef, data)
+  set(eventRef, { ...data, timestamp: Date.now() })
     .then(() => {
       success();
     })

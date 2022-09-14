@@ -10,6 +10,8 @@ import ResponsesStopped from "./components/responsesStopped/ResponsesStopped";
 import Home from "./components/secondEventForm/Home";
 import NeonCricketForm from "./components/secondEventForm/NeonCricketForm";
 import ResponseNeon from "./components/secondEventForm/ResponsesNeon";
+import NeonCricketResponses from "./components/secondEventForm/responses/NeonCricketResponses";
+import TechnitudeResponses from "./components/secondEventForm/responses/PikaWebResponses";
 
 function App() {
   const [accepting, setAccepting] = useState(true);
@@ -75,6 +77,14 @@ function App() {
         <Route
           path="/INTERVIEWFAIR-responses"
           element={<INTERVIEWFAIR_RESPONSES />}
+        />
+        <Route
+          path="/neon-cricket-responses"
+          element={<NeonCricketResponses />}
+        />
+        <Route
+          path="/technitude-responses"
+          element={<TechnitudeResponses />}
         />
         <Route
           path="/neon-cricket"
