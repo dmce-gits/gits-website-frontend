@@ -218,16 +218,16 @@ const NeonCricketForm = ({ setRegisterSubmitClicked }) => {
           <div className="form-control">
             <div id="logo">
               <div className="flex flex-row justify-between items-center mb-3">
-                <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-fit" />
+                <img src="./dmce-logo.jpg" alt="logo" className="w-20 h-20" />
                 <img
                   src="./GITS LOGO-modified.png"
                   alt="logo"
-                  className="w-20 h-fit"
+                  className="w-20 h-20"
                 />
                 <img
                   src="./output-onlinepngtools.png"
                   alt="logo"
-                  className="w-20 h-fit"
+                  className="w-20 h-20"
                 />
               </div>
               <h1
