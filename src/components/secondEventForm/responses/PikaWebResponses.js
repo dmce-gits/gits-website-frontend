@@ -111,6 +111,8 @@ const TechnitudeResponses = () => {
       name: "Phone",
       selector: (row) => row.phone,
       sortable: true,
+      minWidth: "110px",
+      wrap: true,
     },
     {
       name: "Email",
